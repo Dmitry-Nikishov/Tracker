@@ -25,7 +25,7 @@ enum TrackerCategoryManipulator {
     ) -> TrackerCategory {
         let trackers = category.trackers.filter(
             {
-                ($0.text.contains(searchQuery) ||
+                ($0.name.contains(searchQuery) ||
                  searchQuery.isEmpty) &&
                 ($0.schedule.contains(
                     where: {

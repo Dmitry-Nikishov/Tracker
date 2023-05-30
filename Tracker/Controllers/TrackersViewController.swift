@@ -197,7 +197,6 @@ final class TrackersViewController: UIViewController {
         self.dismiss(animated: false)
         updateVisibleCategories()
     }
-
 }
 
 extension TrackersViewController: UISearchResultsUpdating {
@@ -244,10 +243,20 @@ extension TrackersViewController: UICollectionViewDataSource {
         }
         
         let tracker = visibleCategories[indexPath.section].trackers[indexPath.row]
-        let daysCount = completedTrackers.filter{ $0.id == tracker.id }.count
+        
+        let daysCount = completedTrackers.filter{
+            $0.id == tracker.id
+        }.count
+        
         let isFinishedToday = completedTrackers.contains(
-            where: { $0.id == tracker.id }
+            where: {
+                $0.id == tracker.id &&
+                $0.date.isEqualByDayGranularity(
+                    other: currentDate
+                )
+            }
         )
+                
         cell.delegate = self
         cell.configureCell(with: tracker)
         cell.configureRecord(
@@ -351,7 +360,12 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
         var days = completedTrackers.filter{ $0.id == id }.count
         
         if !completedTrackers.contains(
-            where: { $0.id == id && $0.date == currentDate }
+            where: {
+                $0.id == id &&
+                $0.date.isEqualByDayGranularity(
+                    other: currentDate
+                )
+            }
         ) {
             completedTrackers.insert(
                 TrackerRecord(id: id, date: currentDate)
@@ -359,9 +373,12 @@ extension TrackersViewController: TrackerCollectionViewCellDelegate {
             days += 1
             isFinishedToday = true
         } else {
-            completedTrackers.remove(
-                TrackerRecord(id: id, date: currentDate)
-            )
+            completedTrackers = completedTrackers.filter {
+                !(
+                    $0.id == id &&
+                    $0.date.isEqualByDayGranularity(other: currentDate)
+                )
+            }
             days -= 1
             isFinishedToday = false
         }

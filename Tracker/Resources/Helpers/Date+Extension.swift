@@ -8,6 +8,14 @@
 import Foundation
 
 extension Date {
+    func isEqualByDayGranularity(other: Date) -> Bool {
+        Calendar.current.isDate(
+            self,
+            equalTo: other,
+            toGranularity: .day
+        )
+    }
+    
     func getDayOfWeek() -> Int? {
         return Calendar.current.dateComponents([.weekday], from: self).weekday
     }

@@ -131,7 +131,6 @@ extension ScheduleViewController: UITableViewDataSource {
         if isOn {
             completedButton.backgroundColor = .appBlack
             completedButton.setTitleColor(.appWhite, for: .normal)
-            
         } else {
             completedButton.backgroundColor = .appGray
             completedButton.setTitleColor(.white, for: .normal)

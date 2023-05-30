@@ -123,7 +123,7 @@ final class TrackerCollectionViewCell: UICollectionViewCell {
     }
     
     func configureCell(with item: Tracker) {
-        nameLabel.text = item.text
+        nameLabel.text = item.name
         emojiLabel.text = item.emoji
         colorView.backgroundColor = item.color
         plusButton.backgroundColor = item.color
