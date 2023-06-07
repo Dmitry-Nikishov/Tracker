@@ -24,10 +24,16 @@
 		F61361992A1E47C400B0EA3B /* Date+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61361982A1E47C400B0EA3B /* Date+Extension.swift */; };
 		F613619C2A21025000B0EA3B /* TrackerCategoryAddable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F613619B2A21025000B0EA3B /* TrackerCategoryAddable.swift */; };
 		F613619F2A21090500B0EA3B /* TrackerCategoryManipulator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F613619E2A21090500B0EA3B /* TrackerCategoryManipulator.swift */; };
+		F6CDCE612A308932003E9F05 /* LaunchScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CDCE602A308932003E9F05 /* LaunchScreenView.swift */; };
+		F6CDCE632A308943003E9F05 /* LaunchScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CDCE622A308943003E9F05 /* LaunchScreenController.swift */; };
+		F6CDCE652A30894F003E9F05 /* LaunchScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CDCE642A30894F003E9F05 /* LaunchScreenPresenter.swift */; };
+		F6CDCE672A30901D003E9F05 /* UserDefaultsAccessor.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CDCE662A30901D003E9F05 /* UserDefaultsAccessor.swift */; };
+		F6CDCE6D2A30944D003E9F05 /* OnboardingScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CDCE6C2A30944D003E9F05 /* OnboardingScreenView.swift */; };
+		F6CDCE6F2A30945E003E9F05 /* OnboardingScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CDCE6E2A30945E003E9F05 /* OnboardingScreenController.swift */; };
+		F6CDCE712A30946E003E9F05 /* OnboardingScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6CDCE702A30946E003E9F05 /* OnboardingScreenPresenter.swift */; };
 		F6FA0BEE2A1B842C00E85451 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FA0BED2A1B842C00E85451 /* AppDelegate.swift */; };
 		F6FA0BF02A1B842C00E85451 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F6FA0BEF2A1B842C00E85451 /* SceneDelegate.swift */; };
 		F6FA0BF72A1B842D00E85451 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F6FA0BF62A1B842D00E85451 /* Assets.xcassets */; };
-		F6FA0BFA2A1B842D00E85451 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F6FA0BF82A1B842D00E85451 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,11 +54,17 @@
 		F61361982A1E47C400B0EA3B /* Date+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Date+Extension.swift"; sourceTree = "<group>"; };
 		F613619B2A21025000B0EA3B /* TrackerCategoryAddable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryAddable.swift; sourceTree = "<group>"; };
 		F613619E2A21090500B0EA3B /* TrackerCategoryManipulator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryManipulator.swift; sourceTree = "<group>"; };
+		F6CDCE602A308932003E9F05 /* LaunchScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenView.swift; sourceTree = "<group>"; };
+		F6CDCE622A308943003E9F05 /* LaunchScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenController.swift; sourceTree = "<group>"; };
+		F6CDCE642A30894F003E9F05 /* LaunchScreenPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaunchScreenPresenter.swift; sourceTree = "<group>"; };
+		F6CDCE662A30901D003E9F05 /* UserDefaultsAccessor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDefaultsAccessor.swift; sourceTree = "<group>"; };
+		F6CDCE6C2A30944D003E9F05 /* OnboardingScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreenView.swift; sourceTree = "<group>"; };
+		F6CDCE6E2A30945E003E9F05 /* OnboardingScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreenController.swift; sourceTree = "<group>"; };
+		F6CDCE702A30946E003E9F05 /* OnboardingScreenPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreenPresenter.swift; sourceTree = "<group>"; };
 		F6FA0BEA2A1B842C00E85451 /* Tracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Tracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6FA0BED2A1B842C00E85451 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		F6FA0BEF2A1B842C00E85451 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		F6FA0BF62A1B842D00E85451 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		F6FA0BF92A1B842D00E85451 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		F6FA0BFB2A1B842D00E85451 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -86,6 +98,7 @@
 			children = (
 				F613617B2A1CCDA300B0EA3B /* UIColor+Extension.swift */,
 				F61361982A1E47C400B0EA3B /* Date+Extension.swift */,
+				F6CDCE662A30901D003E9F05 /* UserDefaultsAccessor.swift */,
 			);
 			path = Helpers;
 			sourceTree = "<group>";
@@ -136,6 +149,83 @@
 			path = Aux;
 			sourceTree = "<group>";
 		};
+		F6CDCE5B2A3088DC003E9F05 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				F6CDCE682A309415003E9F05 /* OnboardingScreen */,
+				F6CDCE5C2A3088F5003E9F05 /* LaunchScreen */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		F6CDCE5C2A3088F5003E9F05 /* LaunchScreen */ = {
+			isa = PBXGroup;
+			children = (
+				F6CDCE5F2A308910003E9F05 /* Presenter */,
+				F6CDCE5E2A308909003E9F05 /* Contoller */,
+				F6CDCE5D2A3088FF003E9F05 /* View */,
+			);
+			path = LaunchScreen;
+			sourceTree = "<group>";
+		};
+		F6CDCE5D2A3088FF003E9F05 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F6CDCE602A308932003E9F05 /* LaunchScreenView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F6CDCE5E2A308909003E9F05 /* Contoller */ = {
+			isa = PBXGroup;
+			children = (
+				F6CDCE622A308943003E9F05 /* LaunchScreenController.swift */,
+			);
+			path = Contoller;
+			sourceTree = "<group>";
+		};
+		F6CDCE5F2A308910003E9F05 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				F6CDCE642A30894F003E9F05 /* LaunchScreenPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
+		F6CDCE682A309415003E9F05 /* OnboardingScreen */ = {
+			isa = PBXGroup;
+			children = (
+				F6CDCE6B2A309437003E9F05 /* Presenter */,
+				F6CDCE6A2A309431003E9F05 /* Controller */,
+				F6CDCE692A30942C003E9F05 /* View */,
+			);
+			path = OnboardingScreen;
+			sourceTree = "<group>";
+		};
+		F6CDCE692A30942C003E9F05 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				F6CDCE6C2A30944D003E9F05 /* OnboardingScreenView.swift */,
+			);
+			path = View;
+			sourceTree = "<group>";
+		};
+		F6CDCE6A2A309431003E9F05 /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				F6CDCE6E2A30945E003E9F05 /* OnboardingScreenController.swift */,
+			);
+			path = Controller;
+			sourceTree = "<group>";
+		};
+		F6CDCE6B2A309437003E9F05 /* Presenter */ = {
+			isa = PBXGroup;
+			children = (
+				F6CDCE702A30946E003E9F05 /* OnboardingScreenPresenter.swift */,
+			);
+			path = Presenter;
+			sourceTree = "<group>";
+		};
 		F6FA0BE12A1B842C00E85451 = {
 			isa = PBXGroup;
 			children = (
@@ -155,6 +245,7 @@
 		F6FA0BEC2A1B842C00E85451 /* Tracker */ = {
 			isa = PBXGroup;
 			children = (
+				F6CDCE5B2A3088DC003E9F05 /* Screens */,
 				F613619D2A2108E300B0EA3B /* Aux */,
 				F61361852A1E28D600B0EA3B /* Models */,
 				F61361822A1E235500B0EA3B /* Views */,
@@ -162,7 +253,6 @@
 				F61361772A1CCB9B00B0EA3B /* Controllers */,
 				F6FA0BED2A1B842C00E85451 /* AppDelegate.swift */,
 				F6FA0BEF2A1B842C00E85451 /* SceneDelegate.swift */,
-				F6FA0BF82A1B842D00E85451 /* LaunchScreen.storyboard */,
 				F6FA0BFB2A1B842D00E85451 /* Info.plist */,
 			);
 			path = Tracker;
@@ -226,7 +316,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F6FA0BFA2A1B842D00E85451 /* LaunchScreen.storyboard in Resources */,
 				F6FA0BF72A1B842D00E85451 /* Assets.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -239,10 +328,14 @@
 			buildActionMask = 2147483647;
 			files = (
 				F61361892A1E294000B0EA3B /* WeekDay.swift in Sources */,
+				F6CDCE672A30901D003E9F05 /* UserDefaultsAccessor.swift in Sources */,
 				F6FA0BEE2A1B842C00E85451 /* AppDelegate.swift in Sources */,
 				F613619C2A21025000B0EA3B /* TrackerCategoryAddable.swift in Sources */,
 				F61361952A1E3B4500B0EA3B /* TrackerType.swift in Sources */,
+				F6CDCE712A30946E003E9F05 /* OnboardingScreenPresenter.swift in Sources */,
 				F61361972A1E3CCA00B0EA3B /* ScheduleViewController.swift in Sources */,
+				F6CDCE6F2A30945E003E9F05 /* OnboardingScreenController.swift in Sources */,
+				F6CDCE652A30894F003E9F05 /* LaunchScreenPresenter.swift in Sources */,
 				F61361932A1E338800B0EA3B /* NewTrackerViewController.swift in Sources */,
 				F61361802A1CD0F800B0EA3B /* TrackersViewController.swift in Sources */,
 				F613618D2A1E2CF600B0EA3B /* TrackerRecord.swift in Sources */,
@@ -253,25 +346,17 @@
 				F613618F2A1E2D1500B0EA3B /* TrackerCategory.swift in Sources */,
 				F6FA0BF02A1B842C00E85451 /* SceneDelegate.swift in Sources */,
 				F61361842A1E236F00B0EA3B /* TrackerCollectionViewCell.swift in Sources */,
+				F6CDCE612A308932003E9F05 /* LaunchScreenView.swift in Sources */,
 				F613617C2A1CCDA300B0EA3B /* UIColor+Extension.swift in Sources */,
+				F6CDCE6D2A30944D003E9F05 /* OnboardingScreenView.swift in Sources */,
 				F61361872A1E28EC00B0EA3B /* Tracker.swift in Sources */,
+				F6CDCE632A308943003E9F05 /* LaunchScreenController.swift in Sources */,
 				F61361912A1E32A500B0EA3B /* NewTrackerTypeController.swift in Sources */,
 				F613618B2A1E2AAF00B0EA3B /* TrackerHeaderCollectionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		F6FA0BF82A1B842D00E85451 /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				F6FA0BF92A1B842D00E85451 /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		F6FA0BFC2A1B842D00E85451 /* Debug */ = {
@@ -399,7 +484,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Tracker/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
@@ -430,7 +515,7 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = Tracker/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
-				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
+				INFOPLIST_KEY_UILaunchStoryboardName = "";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
