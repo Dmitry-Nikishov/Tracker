@@ -7,11 +7,7 @@
 
 import UIKit
 
-final class OnboardingScreenController: UIViewController {
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .darkContent
-    }
-    
+final class OnboardingScreenController: StyledScreenController {    
     let screenView = OnboardingScreenView()
     private var presenter: OnboardingScreenPresenter?
     
@@ -35,6 +31,7 @@ final class OnboardingScreenController: UIViewController {
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         setupSubViews()
     }
     

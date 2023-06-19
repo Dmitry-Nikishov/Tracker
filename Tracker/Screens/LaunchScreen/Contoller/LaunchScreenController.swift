@@ -7,11 +7,7 @@
 
 import UIKit
 
-final class LaunchScreenController: UIViewController {
-    override var preferredStatusBarStyle: UIStatusBarStyle {
-        .darkContent
-    }
-    
+final class LaunchScreenController: StyledScreenController {    
     let screenView = LaunchScreenView()
     private var presenter: LaunchScreenPresenter?
     
@@ -38,6 +34,7 @@ final class LaunchScreenController: UIViewController {
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         setupSubViews()
     }
 }

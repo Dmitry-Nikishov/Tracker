@@ -7,6 +7,13 @@
 
 import Foundation
 
+private let defaultFormatter: DateFormatter = {
+    let formatter = DateFormatter()
+    formatter.locale = Locale(identifier: "ru_RU")
+    formatter.dateFormat = "dd.MM.YY"
+    return formatter
+}()
+
 extension Date {
     func isEqualByDayGranularity(other: Date) -> Bool {
         Calendar.current.isDate(
@@ -32,4 +39,8 @@ extension Date {
         
         return WeekDay.allCases[currentDay - 2]
     }
+    
+    var dateString: String { defaultFormatter.string(from: self) }
+    var weekDayIndex: Int { Calendar.current.component(.weekday, from: self) }
 }
+

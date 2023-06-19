@@ -79,7 +79,7 @@ final class OnboardingScreenPresenter {
 extension OnboardingScreenPresenter: OnboardingScreenViewDelegate {
     func goToMainScreen() {
         UserDefaultsAccessor.shared.setOnboardingStatus()
-        UIApplication.shared.windows.first?.rootViewController = AppMainTabBarController()
+        UIApplication.shared.windows.first?.rootViewController = AppTabBarController()
         UIApplication.shared.windows.first?.makeKeyAndVisible()
     }
 }

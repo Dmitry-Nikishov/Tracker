@@ -15,7 +15,7 @@ final class LaunchScreenPresenter {
         
         UIApplication.shared.windows.first?.rootViewController =
         shouldTabBarControllerBeShown ?
-        AppMainTabBarController() :
+        AppTabBarController() :
         OnboardingScreenController()
 
         UIApplication.shared.windows.first?.makeKeyAndVisible()
