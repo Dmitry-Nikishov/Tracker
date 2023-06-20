@@ -11,7 +11,7 @@ final class EmojiCellView: UICollectionViewCell {
     lazy var frameView: UIView = {
         let view = UIView()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.backgroundColor = .clear
+        view.backgroundColor = .appLightGray
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
         view.isHidden = true

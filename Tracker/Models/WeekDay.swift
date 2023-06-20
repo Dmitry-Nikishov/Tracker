@@ -15,18 +15,18 @@ enum WeekDay: String, CaseIterable {
     case friday = "Пятница"
     case saturday = "Суббота"
     case sunday = "Воскресенье"
+    
+    private static let daysMapping = [
+        "Понедельник": "Пн",
+        "Вторник": "Вт",
+        "Среда": "Ср",
+        "Четверг": "Чт",
+        "Пятница": "Пт",
+        "Суббота": "Сб",
+        "Воскресенье": "Вс"
+    ]
 
-    static func getShortWeekDay(for day: String) -> String? {
-        let daysMapping = [
-            "Понедельник": "Пн",
-            "Вторник": "Вт",
-            "Среда": "Ср",
-            "Четверг": "Чт",
-            "Пятница": "Пт",
-            "Суббота": "Сб",
-            "Воскресенье": "Вс"
-        ]
-        
+    static func getShortWeekDay(for day: String) -> String? {        
         return daysMapping[day]
     }
 

@@ -13,7 +13,7 @@ final class TrackersScreenController: StyledScreenController {
     
     private func setupEndEditingGesture() {
         let tap = UITapGestureRecognizer(
-            target: self,
+            target: view,
             action: #selector(UIView.endEditing)
         )
         tap.cancelsTouchesInView = false

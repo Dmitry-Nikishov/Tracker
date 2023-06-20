@@ -18,9 +18,12 @@ final class HabitCreationScreenController: StyledScreenController {
     }
 
     private func configureKeyboardHiding() {
-//        let tap = UITapGestureRecognizer(target: self, action: #selector(UIView.endEditing))
-//        tap.cancelsTouchesInView = false
-//        view.addGestureRecognizer(tap)
+        let tap = UITapGestureRecognizer(
+            target: view,
+            action: #selector(UIView.endEditing)
+        )
+        tap.cancelsTouchesInView = false
+        view.addGestureRecognizer(tap)
     }
     
     private func setupConstraints() {
@@ -136,17 +139,13 @@ extension HabitCreationScreenController: UITableViewDelegate {
 
 extension HabitCreationScreenController: UICollectionViewDataSource {
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        print("NOI : cv tag = \(collectionView.tag)")
-        let ret = presenter?.getNumberOfItems(forCollectionView: collectionView) ?? 0
-        print("ret = \(ret)")
-        return ret
+        presenter?.getNumberOfItems(forCollectionView: collectionView) ?? 0
     }
 
     func collectionView(_ collectionView: UICollectionView,
                         cellForItemAt indexPath: IndexPath
     ) -> UICollectionViewCell {
-        print("source : cv tag = \(collectionView.tag)")
-        return presenter?.setupCell(
+        presenter?.setupCell(
             collectionView: collectionView,
             indexPath: indexPath
         ) ?? UICollectionViewCell()
@@ -184,7 +183,6 @@ extension HabitCreationScreenController: UICollectionViewDelegateFlowLayout {
 
 extension HabitCreationScreenController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        print("delegate tag = \(collectionView.tag)")
         if collectionView.tag == 1 {
             guard let cell = collectionView.cellForItem(at: indexPath) as? EmojiCellView else {
                 return

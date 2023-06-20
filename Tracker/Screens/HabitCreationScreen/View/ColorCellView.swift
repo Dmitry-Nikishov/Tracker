@@ -36,7 +36,9 @@ final class ColorCellView: UICollectionViewCell {
             frameView.trailingAnchor.constraint(equalTo: trailingAnchor),
             frameView.bottomAnchor.constraint(equalTo: bottomAnchor),
             colorView.widthAnchor.constraint(equalToConstant: 40),
-            colorView.heightAnchor.constraint(equalTo: colorView.widthAnchor, multiplier: 1),
+            colorView.heightAnchor.constraint(
+                equalTo: colorView.widthAnchor, multiplier: 1
+            ),
             colorView.centerXAnchor.constraint(equalTo: centerXAnchor),
             colorView.centerYAnchor.constraint(equalTo: centerYAnchor)
         ]

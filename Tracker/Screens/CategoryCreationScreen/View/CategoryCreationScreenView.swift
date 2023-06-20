@@ -131,7 +131,9 @@ final class CategoryCreationScreenView: UIView {
     }
 
     required init?(coder: NSCoder) {
-        fatalError("init(coder:) not implemented for CategoryCreationScreenView")
+        fatalError(
+            "init(coder:) not implemented for CategoryCreationScreenView"
+        )
     }
     
     @objc private func finishedButtonClicked() {

@@ -34,7 +34,9 @@ final class TrackerCategoryStore: NSObject {
     var categories: [TrackerCategory] {
         guard
             let objects = self.fetchedResultsController.fetchedObjects,
-            let categories = try? objects.map({ try self.getCategory(from: $0) })
+            let categories = try? objects.map({
+                try self.getCategory(from: $0)
+            })
         else {
             return []
         }
@@ -78,7 +80,9 @@ final class TrackerCategoryStore: NSObject {
         )
         request.returnsObjectsAsFaults = false
         request.predicate = NSPredicate(format: "name == %@", name)
-        guard let category = try? context.fetch(request).first else { return nil }
+        guard let category = try? context.fetch(request).first else {
+            return nil
+        }
         return category
     }
 
@@ -130,7 +134,8 @@ final class TrackerCategoryStore: NSObject {
     }
 
     func getCategory(from cdCategory: CDCategory) throws -> TrackerCategory {
-        guard let trackers = cdCategory.trackers?.allObjects as? [CDTracker] else {
+        guard let trackers =
+                cdCategory.trackers?.allObjects as? [CDTracker] else {
             throw TrackerCategoryStoreError.invalidUUID
         }
         guard let title = cdCategory.name else {

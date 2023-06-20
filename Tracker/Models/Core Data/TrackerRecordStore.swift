@@ -27,7 +27,9 @@ final class TrackerRecordStore: NSObject {
     var trackers: [TrackerRecord] {
         guard
             let objects = self.fetchedResultsController.fetchedObjects,
-            let categories = try? objects.map({ try self.getRecord(from: $0) })
+            let categories = try? objects.map({
+                try self.getRecord(from: $0)
+            })
         else {
             return []
         }

@@ -148,7 +148,7 @@ final class HabitCreationScreenView: UIView {
     lazy var colorCollectionView: UICollectionView = {
         let view = UICollectionView(
             frame: .zero,
-            collectionViewLayout: UICollectionViewLayout()
+            collectionViewLayout: UICollectionViewFlowLayout()
         )
         view.translatesAutoresizingMaskIntoConstraints = false
         view.allowsMultipleSelection = false
