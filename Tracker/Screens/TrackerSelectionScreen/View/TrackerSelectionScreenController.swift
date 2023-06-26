@@ -1,21 +1,13 @@
 //
-//  TrackerSelectionScreenView.swift
+//  TrackerSelectionScreenController.swift
 //  Tracker
 //
-//  Created by Дмитрий Никишов on 09.06.2023.
+//  Created by Дмитрий Никишов on 26.06.2023.
 //
 
 import UIKit
 
-protocol TrackerSelectionScreenViewDelegate: AnyObject {
-    func toHabit()
-    func toEvent()
-}
-
-
-final class TrackerSelectionScreenView: UIView {
-    weak var delegate: TrackerSelectionScreenViewDelegate?
-    
+final class TrackerSelectionScreenController: StyledScreenController {
     private lazy var titleLabel: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -28,7 +20,7 @@ final class TrackerSelectionScreenView: UIView {
         view.text = "Создание трекера"
         return view
     }()
-    
+
     private lazy var stackView: UIStackView = {
         let view = UIStackView()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -37,7 +29,7 @@ final class TrackerSelectionScreenView: UIView {
         view.spacing = 16
         return view
     }()
-    
+
     private lazy var habitButton: UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -50,7 +42,7 @@ final class TrackerSelectionScreenView: UIView {
         view.addTarget(nil, action: #selector(habitButtonClicked), for: .touchUpInside)
         return view
     }()
-    
+
     private lazy var eventButton: UIButton = {
         let view = UIButton()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -63,27 +55,21 @@ final class TrackerSelectionScreenView: UIView {
         view.addTarget(nil, action: #selector(eventButtonClicked), for: .touchUpInside)
         return view
     }()
-    
-    @objc private func habitButtonClicked() {
-        delegate?.toHabit()
-    }
-    
-    @objc private func eventButtonClicked() {
-        delegate?.toEvent()
-    }
 
-    private func setupSubviews() {
-        addSubview(titleLabel)
+    private func setupSubView() {
+        view.backgroundColor = .appWhite
+
+        view.addSubview(titleLabel)
         stackView.addArrangedSubview(habitButton)
         stackView.addArrangedSubview(eventButton)
-        addSubview(stackView)
-        
+        view.addSubview(stackView)
+
         let constraints = [
-            titleLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            titleLabel.topAnchor.constraint(equalTo: topAnchor, constant: 27),
-            stackView.centerYAnchor.constraint(equalTo: centerYAnchor),
-            stackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 20),
-            stackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -20),
+            titleLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            titleLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 27),
+            stackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            stackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            stackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             habitButton.heightAnchor.constraint(equalToConstant: 60),
             eventButton.heightAnchor.constraint(equalToConstant: 60)
         ]
@@ -91,13 +77,28 @@ final class TrackerSelectionScreenView: UIView {
         NSLayoutConstraint.activate(constraints)
     }
     
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        translatesAutoresizingMaskIntoConstraints = false
-        setupSubviews()
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        setupSubView()
+    }
+
+    @objc private func habitButtonClicked() {
+        present(HabitCreationScreenController(), animated: true)
     }
     
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented for TrackerSelectionScreenView")
+    @objc private func eventButtonClicked() {
+        present(HabitCreationScreenController(isNonRegularEvent: true), animated: true)
+    }
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        if let topVc = UIApplication.shared.windows.filter({
+            $0.isKeyWindow
+        }
+        ).first?.rootViewController {
+            let destinationVc =
+            topVc.children.first?.children.first as? TrackersScreenController
+            destinationVc?.updateCollectionView()
+        }
     }
 }
+
