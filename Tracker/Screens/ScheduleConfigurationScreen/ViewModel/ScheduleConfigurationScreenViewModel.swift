@@ -1,15 +1,13 @@
 //
-//  ScheduleConfigurationScreenPresenter.swift
+//  ScheduleConfigurationScreenViewModel.swift
 //  Tracker
 //
-//  Created by Дмитрий Никишов on 16.06.2023.
+//  Created by Дмитрий Никишов on 26.06.2023.
 //
 
 import UIKit
 
-final class ScheduleConfigurationScreenPresenter {
-    private weak var controller: ScheduleConfigurationScreenController?
-
+final class ScheduleConfigurationScreenViewModel {
     private let days: [String] = WeekDay.allCases.map {$0.rawValue}
     private var selectedDays: [String] = []
     private var alreadySelectedDays: [String] = []
@@ -20,10 +18,6 @@ final class ScheduleConfigurationScreenPresenter {
             selectedStatuses.append(isAlreadySelected)
         }
         return selectedStatuses
-    }
-
-    init(controller: ScheduleConfigurationScreenController? = nil) {
-        self.controller = controller
     }
     
     func getNumberOfDays() -> Int {

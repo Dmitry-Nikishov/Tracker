@@ -13,6 +13,8 @@
 		F60C5BAD2A49B6D500F3B705 /* OnboardingScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60C5BAC2A49B6D500F3B705 /* OnboardingScreenController.swift */; };
 		F60C5BAF2A49C81700F3B705 /* CategoryCreationScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60C5BAE2A49C81700F3B705 /* CategoryCreationScreenController.swift */; };
 		F60C5BB12A49CF6400F3B705 /* TrackerSelectionScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60C5BB02A49CF6400F3B705 /* TrackerSelectionScreenController.swift */; };
+		F60C5BB42A49D1AD00F3B705 /* ScheduleConfigurationScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60C5BB32A49D1AD00F3B705 /* ScheduleConfigurationScreenViewModel.swift */; };
+		F60C5BB62A49D4EB00F3B705 /* ScheduleConfigurationScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F60C5BB52A49D4EB00F3B705 /* ScheduleConfigurationScreenController.swift */; };
 		F613617C2A1CCDA300B0EA3B /* UIColor+Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = F613617B2A1CCDA300B0EA3B /* UIColor+Extension.swift */; };
 		F61361872A1E28EC00B0EA3B /* Tracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61361862A1E28EC00B0EA3B /* Tracker.swift */; };
 		F61361892A1E294000B0EA3B /* WeekDay.swift in Sources */ = {isa = PBXBuildFile; fileRef = F61361882A1E294000B0EA3B /* WeekDay.swift */; };
@@ -27,9 +29,6 @@
 		F64E12662A39E7D70053AF65 /* HabitCreationScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64E12652A39E7D70053AF65 /* HabitCreationScreenController.swift */; };
 		F64E12682A39E7E70053AF65 /* HabitCreationScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64E12672A39E7E70053AF65 /* HabitCreationScreenPresenter.swift */; };
 		F64E126E2A3C7C330053AF65 /* DaySelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64E126D2A3C7C330053AF65 /* DaySelectionCell.swift */; };
-		F64E12702A3C7DA90053AF65 /* ScheduleConfigurationScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64E126F2A3C7DA90053AF65 /* ScheduleConfigurationScreenView.swift */; };
-		F64E12722A3C8B1F0053AF65 /* ScheduleConfigurationScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64E12712A3C8B1F0053AF65 /* ScheduleConfigurationScreenPresenter.swift */; };
-		F64E12742A3C8B3D0053AF65 /* ScheduleConfigurationScreenController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64E12732A3C8B3D0053AF65 /* ScheduleConfigurationScreenController.swift */; };
 		F64E12812A3CAA820053AF65 /* CategorySelectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64E12802A3CAA820053AF65 /* CategorySelectionCell.swift */; };
 		F64E12832A3CAC330053AF65 /* TrackerCategoryScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64E12822A3CAC330053AF65 /* TrackerCategoryScreenView.swift */; };
 		F64E12852A3CAFE80053AF65 /* TrackerCategoryScreenPresenter.swift in Sources */ = {isa = PBXBuildFile; fileRef = F64E12842A3CAFE80053AF65 /* TrackerCategoryScreenPresenter.swift */; };
@@ -62,6 +61,8 @@
 		F60C5BAC2A49B6D500F3B705 /* OnboardingScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingScreenController.swift; sourceTree = "<group>"; };
 		F60C5BAE2A49C81700F3B705 /* CategoryCreationScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCreationScreenController.swift; sourceTree = "<group>"; };
 		F60C5BB02A49CF6400F3B705 /* TrackerSelectionScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerSelectionScreenController.swift; sourceTree = "<group>"; };
+		F60C5BB32A49D1AD00F3B705 /* ScheduleConfigurationScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleConfigurationScreenViewModel.swift; sourceTree = "<group>"; };
+		F60C5BB52A49D4EB00F3B705 /* ScheduleConfigurationScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleConfigurationScreenController.swift; sourceTree = "<group>"; };
 		F613617B2A1CCDA300B0EA3B /* UIColor+Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor+Extension.swift"; sourceTree = "<group>"; };
 		F61361862A1E28EC00B0EA3B /* Tracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tracker.swift; sourceTree = "<group>"; };
 		F61361882A1E294000B0EA3B /* WeekDay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeekDay.swift; sourceTree = "<group>"; };
@@ -76,9 +77,6 @@
 		F64E12652A39E7D70053AF65 /* HabitCreationScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitCreationScreenController.swift; sourceTree = "<group>"; };
 		F64E12672A39E7E70053AF65 /* HabitCreationScreenPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HabitCreationScreenPresenter.swift; sourceTree = "<group>"; };
 		F64E126D2A3C7C330053AF65 /* DaySelectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DaySelectionCell.swift; sourceTree = "<group>"; };
-		F64E126F2A3C7DA90053AF65 /* ScheduleConfigurationScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleConfigurationScreenView.swift; sourceTree = "<group>"; };
-		F64E12712A3C8B1F0053AF65 /* ScheduleConfigurationScreenPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleConfigurationScreenPresenter.swift; sourceTree = "<group>"; };
-		F64E12732A3C8B3D0053AF65 /* ScheduleConfigurationScreenController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScheduleConfigurationScreenController.swift; sourceTree = "<group>"; };
 		F64E12802A3CAA820053AF65 /* CategorySelectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategorySelectionCell.swift; sourceTree = "<group>"; };
 		F64E12822A3CAC330053AF65 /* TrackerCategoryScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryScreenView.swift; sourceTree = "<group>"; };
 		F64E12842A3CAFE80053AF65 /* TrackerCategoryScreenPresenter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TrackerCategoryScreenPresenter.swift; sourceTree = "<group>"; };
@@ -129,6 +127,14 @@
 			isa = PBXGroup;
 			children = (
 				F60C5BA82A49B55C00F3B705 /* OnboardingScreenViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
+		F60C5BB22A49D19300F3B705 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				F60C5BB32A49D1AD00F3B705 /* ScheduleConfigurationScreenViewModel.swift */,
 			);
 			path = ViewModel;
 			sourceTree = "<group>";
@@ -214,8 +220,7 @@
 		F64E12692A3C7BED0053AF65 /* ScheduleConfigurationScreen */ = {
 			isa = PBXGroup;
 			children = (
-				F64E126C2A3C7C080053AF65 /* Presenter */,
-				F64E126B2A3C7C010053AF65 /* Controller */,
+				F60C5BB22A49D19300F3B705 /* ViewModel */,
 				F64E126A2A3C7BFD0053AF65 /* View */,
 			);
 			path = ScheduleConfigurationScreen;
@@ -225,25 +230,9 @@
 			isa = PBXGroup;
 			children = (
 				F64E126D2A3C7C330053AF65 /* DaySelectionCell.swift */,
-				F64E126F2A3C7DA90053AF65 /* ScheduleConfigurationScreenView.swift */,
+				F60C5BB52A49D4EB00F3B705 /* ScheduleConfigurationScreenController.swift */,
 			);
 			path = View;
-			sourceTree = "<group>";
-		};
-		F64E126B2A3C7C010053AF65 /* Controller */ = {
-			isa = PBXGroup;
-			children = (
-				F64E12732A3C8B3D0053AF65 /* ScheduleConfigurationScreenController.swift */,
-			);
-			path = Controller;
-			sourceTree = "<group>";
-		};
-		F64E126C2A3C7C080053AF65 /* Presenter */ = {
-			isa = PBXGroup;
-			children = (
-				F64E12712A3C8B1F0053AF65 /* ScheduleConfigurationScreenPresenter.swift */,
-			);
-			path = Presenter;
 			sourceTree = "<group>";
 		};
 		F64E12752A3C980D0053AF65 /* TrackerCategoryScreen */ = {
@@ -522,8 +511,8 @@
 			files = (
 				F61361892A1E294000B0EA3B /* WeekDay.swift in Sources */,
 				F64E12852A3CAFE80053AF65 /* TrackerCategoryScreenPresenter.swift in Sources */,
+				F60C5BB42A49D1AD00F3B705 /* ScheduleConfigurationScreenViewModel.swift in Sources */,
 				F64E126E2A3C7C330053AF65 /* DaySelectionCell.swift in Sources */,
-				F64E12742A3C8B3D0053AF65 /* ScheduleConfigurationScreenController.swift in Sources */,
 				F60C5BAF2A49C81700F3B705 /* CategoryCreationScreenController.swift in Sources */,
 				F64E12832A3CAC330053AF65 /* TrackerCategoryScreenView.swift in Sources */,
 				F6CDCE672A30901D003E9F05 /* UserDefaultsAccessor.swift in Sources */,
@@ -534,8 +523,6 @@
 				F60C5BA92A49B55C00F3B705 /* OnboardingScreenViewModel.swift in Sources */,
 				F64E12622A39E7AA0053AF65 /* ColorCellView.swift in Sources */,
 				F60C5BAB2A49B62B00F3B705 /* OnboardingPageController.swift in Sources */,
-				F64E12722A3C8B1F0053AF65 /* ScheduleConfigurationScreenPresenter.swift in Sources */,
-				F64E12702A3C7DA90053AF65 /* ScheduleConfigurationScreenView.swift in Sources */,
 				F60C5BA62A49B10F00F3B705 /* LaunchScreenViewModel.swift in Sources */,
 				F64E12A12A4350E70053AF65 /* Observable.swift in Sources */,
 				F6CDCE7E2A3329A3003E9F05 /* StyledScreenController.swift in Sources */,
@@ -547,6 +534,7 @@
 				F6CDCE8E2A334D97003E9F05 /* TrackerScreenHeaderView.swift in Sources */,
 				F6CDCE772A31E61E003E9F05 /* TrackersScreenController.swift in Sources */,
 				F64E12882A40636D0053AF65 /* CoreDataManager.swift in Sources */,
+				F60C5BB62A49D4EB00F3B705 /* ScheduleConfigurationScreenController.swift in Sources */,
 				F61361992A1E47C400B0EA3B /* Date+Extension.swift in Sources */,
 				F64E128D2A4066A60053AF65 /* TrackerDb.xcdatamodeld in Sources */,
 				F613618F2A1E2D1500B0EA3B /* TrackerCategory.swift in Sources */,
