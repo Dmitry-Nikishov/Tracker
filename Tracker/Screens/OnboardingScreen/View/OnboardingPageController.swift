@@ -14,7 +14,7 @@ final class OnboardingPageController: StyledScreenController {
         return view
     }()
     
-    private let infoLabel = {
+    private lazy var infoLabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
         view.font = UIFont.systemFont(ofSize: 32, weight: .bold)
