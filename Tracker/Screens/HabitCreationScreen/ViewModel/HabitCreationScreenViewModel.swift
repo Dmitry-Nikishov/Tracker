@@ -1,21 +1,22 @@
 //
-//  HabitCreationScreenPresenter.swift
+//  HabitCreationScreenViewModel.swift
 //  Tracker
 //
-//  Created by Дмитрий Никишов on 14.06.2023.
+//  Created by Дмитрий Никишов on 27.06.2023.
 //
 
 import UIKit
 
-final class HabitCreationScreenPresenter {
-    private weak var controller: HabitCreationScreenController?
-    
+final class HabitCreationScreenViewModel {
+    @Observable
+    private(set) var shouldCreateButtonBeUnlocked: Bool = false
+
     private let emojis = [
         "🙂", "😻", "🌺", "🐶", "❤️", "😱",
         "😇", "😡", "🥶", "🤔", "🙌", "🍔",
         "🥦", "🏓", "🥇", "🎸", "🏝", "😪"
     ]
-    
+
     private let colors: [UIColor] = [
         .clr0, .clr1, .clr2, .clr3, .clr4, .clr5,
         .clr6, .clr7, .clr8, .clr9, .clr10, .clr11,
@@ -28,15 +29,27 @@ final class HabitCreationScreenPresenter {
     private var selectedEmoji: String = ""
     private var selectedColor: UIColor?
     private var selectedSchedule: [WeekDay] = []
+    private var trackerName: String = ""
+    private var isNonRegularEvent: Bool = false
+    private var selectedCell: UITableViewCell?
 
-    init(controller: HabitCreationScreenController? = nil) {
-        self.controller = controller
-        if controller?.isNonRegularEvent ?? false {
+    convenience init(isNonRegularEvent: Bool) {
+        self.init()
+        self.isNonRegularEvent = isNonRegularEvent
+        if isNonRegularEvent {
             let currentWeekDay = WeekDay.getWeekDay(for: Date())
             if let dayKey = WeekDay.getShortWeekDay(for: currentWeekDay.rawValue) {
                 selectedDays.append(dayKey)
             }
         }
+    }
+    
+    func didEnter(_ text: String?) {
+        trackerName = text ?? ""
+    }
+
+    func updateCurrentlySelectedCell(to cell: UITableViewCell?) {
+        selectedCell = cell
     }
 
     func getNumberOfItems(forCollectionView collectionView: UICollectionView) -> Int {
@@ -55,6 +68,42 @@ final class HabitCreationScreenPresenter {
         (UIScreen.main.bounds.width / 86)
     }
 
+    func setSelectedEmoji(emoji: String) {
+        selectedEmoji = emoji
+    }
+
+    func setSelectedColor(color: UIColor?) {
+        selectedColor = color
+    }
+
+    func createNewTracker() -> TrackerCategory {
+        let schedule = isNonRegularEvent ?
+        [WeekDay.getWeekDay(for: Date())] :
+        selectedSchedule
+        
+        return TrackerCategory(
+            title: selectedCategory,
+            trackers: [
+                        Tracker(id: UUID(),
+                                name: trackerName,
+                                emoji: selectedEmoji,
+                                color: selectedColor ?? UIColor(),
+                                schedule: schedule)
+                    ]
+        )
+    }
+    
+    func canHabitBeCreated() -> Bool {
+        guard !trackerName.isEmpty,
+              !selectedCategory.isEmpty,
+              !selectedDays.isEmpty,
+              !selectedEmoji.isEmpty,
+              selectedColor != nil else {
+            return false
+        }
+        return true
+    }
+
     func setupCell(tableView: UITableView, indexPath: IndexPath) -> UITableViewCell {
         var cell: UITableViewCell
         if indexPath.row == 0 {
@@ -62,22 +111,13 @@ final class HabitCreationScreenPresenter {
                 withIdentifier: String(describing: CategoryCellView.self),
                 for: indexPath
             ) as? CategoryCellView) ?? UITableViewCell()
-            
-            if controller?.isNonRegularEvent ?? false {
-                cell.separatorInset = UIEdgeInsets(
-                    top: 0,
-                    left: 0,
-                    bottom: 0,
-                    right: tableView.bounds.width
-                )
-            } else {
-                cell.separatorInset = UIEdgeInsets(
-                    top: 0,
-                    left: 15,
-                    bottom: 0,
-                    right: 15
-                )
-            }
+
+            cell.separatorInset = UIEdgeInsets(
+                top: 0,
+                left: isNonRegularEvent ? 0 : 15,
+                bottom: 0,
+                right: isNonRegularEvent ? tableView.bounds.width : 15
+            )
         } else {
             cell = (tableView.dequeueReusableCell(
                 withIdentifier: String(
@@ -132,65 +172,43 @@ final class HabitCreationScreenPresenter {
         }
         return UICollectionViewCell()
     }
+}
 
-    func setSelectedEmoji(emoji: String) {
-        selectedEmoji = emoji
+extension HabitCreationScreenViewModel: TrackerCategoryConfigurationDelegate {
+    var previousSelectedCategory: String {
+        selectedCategory
     }
 
-    func setSelectedColor(color: UIColor?) {
-        selectedColor = color
-    }
-
-    func canHabitBeCreated() -> Bool {
-        guard !(controller?.screenView.trackerTitleTextField.text ?? "").isEmpty,
-              !selectedCategory.isEmpty,
-              !selectedDays.isEmpty,
-              !selectedEmoji.isEmpty,
-              selectedColor != nil else {
-            return false
+    func updateCategory(withCategory category: String) {
+        selectedCategory = category
+        guard let cell = selectedCell as? CategoryCellView else {
+            return
         }
-        return true
-    }
-
-    func createNewTracker() -> TrackerCategory {
-        let isSingleDate = controller?.isNonRegularEvent ?? false
-        
-        let schedule = isSingleDate ? [WeekDay.getWeekDay(for: Date())] : selectedSchedule
-        
-        return TrackerCategory(
-            title: selectedCategory,
-            trackers: [
-                        Tracker(id: UUID(),
-                                name: controller?.screenView.trackerTitleTextField.text ?? "",
-                                emoji: selectedEmoji,
-                                color: selectedColor ?? UIColor(),
-                                schedule: schedule)
-                    ]
-        )
+        cell.infoLabel.text = selectedCategory
+        cell.infoLabel.isHidden = false
+        shouldCreateButtonBeUnlocked = canHabitBeCreated()
     }
 }
 
-extension HabitCreationScreenPresenter: ScheduleConfigurationDelegate {
+extension HabitCreationScreenViewModel: ScheduleConfigurationDelegate {
     var alreadySelectedSchedule: [String] {
         selectedDaysRaw
     }
 
     func updateSchedule(withDays days: [String]) {
         selectedDays = []
+        selectedSchedule = []
         selectedDaysRaw = days
-        guard let cell = controller?.screenView.optionsTableView.cellForRow(
-            at: IndexPath(row: 1, section: 0)
-        ) as? ScheduleCellView else {
+        guard let cell = selectedCell as? ScheduleCellView else {
             return
         }
-        
-        days.forEach { item in
-            if let scheduleItem = WeekDay(rawValue: item) {
-                selectedSchedule.append(scheduleItem)
-            }
 
+        days.forEach { item in
             if let shortDay = WeekDay.getShortWeekDay(for: item) {
                 selectedDays.append(shortDay)
+            }
+            if let scheduleItem = WeekDay(rawValue: item) {
+                selectedSchedule.append(scheduleItem)
             }
         }
         
@@ -199,26 +217,8 @@ extension HabitCreationScreenPresenter: ScheduleConfigurationDelegate {
         } else {
             cell.infoLabel.text = String(selectedDays.joined(separator: ", "))
         }
-        
         cell.infoLabel.isHidden = false
-        controller?.unlockCreateButtonIfPossible()
+        shouldCreateButtonBeUnlocked = canHabitBeCreated()
     }
 }
 
-extension HabitCreationScreenPresenter: TrackerCategoryConfigurationDelegate {
-    var previousSelectedCategory: String {
-        selectedCategory
-    }
-
-    func updateCategory(withCategory category: String) {
-        selectedCategory = category
-        guard let cell = controller?.screenView.optionsTableView.cellForRow(
-            at: IndexPath(row: 0, section: 0)
-        ) as? CategoryCellView else {
-            return
-        }
-        cell.infoLabel.text = selectedCategory
-        cell.infoLabel.isHidden = false
-        controller?.unlockCreateButtonIfPossible()
-    }
-}

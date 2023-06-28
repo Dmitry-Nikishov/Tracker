@@ -1,29 +1,34 @@
 //
-//  TrackersScreenPresenter.swift
+//  TrackersScreenViewModel.swift
 //  Tracker
 //
-//  Created by Дмитрий Никишов on 08.06.2023.
+//  Created by Дмитрий Никишов on 28.06.2023.
 //
 
 import UIKit
 
-final class TrackersScreenPresenter {
-    private weak var viewController: TrackersScreenController?
+final class TrackersScreenViewModel {
+    @Observable
+    private(set) var shouldCollectionBeHidden: Bool = false
+
+    @Observable
+    private(set) var shouldCollectionBeReloaded: Bool = false
+
     private let trackerCategoryStore = TrackerCategoryStore.shared
     private let trackerRecordStore = TrackerRecordStore()
     private var categories: [TrackerCategory] = []
     private var allCategories: [TrackerCategory] = []
     private var completedTrackers: Set<TrackerRecord> = []
     private var currentDate: Date = Date()
-    
-    init(viewController: TrackersScreenController? = nil) {
-        self.viewController = viewController
+    private var currentSearchText: String = ""
+
+    init() {
         completedTrackers = Set(trackerRecordStore.trackers)
-        updateData()
+        refreshData()
     }
     
-    private func checkCategories() {
-        viewController?.setCollectionView(toBeHidden: categories.isEmpty)
+    func checkDataExistence() {
+        shouldCollectionBeHidden = categories.isEmpty
     }
 
     func getNumberOfCategories() -> Int {
@@ -56,6 +61,12 @@ final class TrackersScreenPresenter {
         }
     }
 
+    func refreshData() {
+        allCategories = trackerCategoryStore.categories
+        searchTrackers(by: currentSearchText)
+        shouldCollectionBeReloaded = true
+    }
+
     func setupCell(
         collectionView: UICollectionView,
         indexPath: IndexPath
@@ -86,6 +97,10 @@ final class TrackersScreenPresenter {
         cell.taskName.text = item.name
         cell.delegate = self
         return cell
+    }
+
+    func updateCurrentDate(to date: Date) {
+        currentDate = date
     }
 
     func searchTrackers(by searchText: String) {
@@ -126,14 +141,10 @@ final class TrackersScreenPresenter {
             }
         }
         
-        viewController?.setCollectionView(toBeHidden: categories.count == 0)
-        viewController?.screenView.collectionView.reloadData()
+        shouldCollectionBeHidden = categories.count == 0
+        shouldCollectionBeReloaded = true
     }
-
-    func updateCurrentDate(date: Date) {
-        currentDate = date
-    }
-
+    
     func addNewTracker(_ data: TrackerCategory) {
         allCategories = trackerCategoryStore.categories
         var updatedAllCategories = allCategories
@@ -145,9 +156,7 @@ final class TrackersScreenPresenter {
             updatedAllCategories.append(data)
             allCategories = updatedAllCategories
             trackerCategoryStore.addNewCategory(data)
-            searchTrackers(
-                by: viewController?.screenView.searchTextField.text ?? ""
-            )
+            searchTrackers(by: currentSearchText)
             return
         }
         var trackersList = updatedAllCategories[index].trackers
@@ -166,18 +175,15 @@ final class TrackersScreenPresenter {
                     trackers: trackersList)
             )
         }
-        searchTrackers(by: viewController?.screenView.searchTextField.text ?? "")
+        searchTrackers(by: currentSearchText)
     }
 
-    func updateData() {
-        allCategories = trackerCategoryStore.categories
-        searchTrackers(
-            by: viewController?.screenView.searchTextField.text ?? ""
-        )
+    func didEnter(_ text: String?) {
+        currentSearchText = text ?? ""
     }
 }
 
-extension TrackersScreenPresenter: TrackerCollectionCellDelegate {
+extension TrackersScreenViewModel: TrackerCollectionCellDelegate {
     func doTask(trackerId: UUID) {
         let finishedTask = TrackerRecord(
             id: trackerId,
@@ -192,7 +198,7 @@ extension TrackersScreenPresenter: TrackerCollectionCellDelegate {
             trackerRecordStore.addNewRecord(finishedTask)
         }
         
-        viewController?.screenView.collectionView.reloadData()
+        shouldCollectionBeReloaded = true
     }
 }
 

@@ -1,57 +1,40 @@
 //
-//  TrackerCategoryScreenPresenter.swift
+//  TrackerCategoryScreenViewModel.swift
 //  Tracker
 //
-//  Created by Дмитрий Никишов on 16.06.2023.
+//  Created by Дмитрий Никишов on 26.06.2023.
 //
 
 import UIKit
 
-final class TrackerCategoryScreenPresenter {
-    private weak var controller: TrackerCategoryScreenController?
+final class TrackerCategoryScreenViewModel {
+    @Observable
+    private(set) var isData: Bool = false
+
+    @Observable
+    private(set) var shouldTableBeReloaded: Bool = false
+
+    @Observable
+    private(set) var updates: TrackerCategoryStoreUpdate?
+
     private let store = TrackerCategoryStore.shared
     private var categories: [String] = []
     private var previouslySelectedCategory = ""
     private var oldCategory = ""
 
-    private func updateTableViewHiddenState(isToBeHidden: Bool) {
-        controller?.setTableViewVisibleState(isToBeHidden: isToBeHidden)
-    }
-    
-    init(controller: TrackerCategoryScreenController? = nil) {
-        self.controller = controller
-        store.delegate = self
-        categories = store.categories.map { $0.title }
-        updateTableViewHiddenState(isToBeHidden: categories.isEmpty)
-    }
-    
-    func updateTableViewVisibility() {
-        updateTableViewHiddenState(isToBeHidden: categories.isEmpty)
-    }
-    
-    func setPreviouslySelectedCategory(with categoryName: String) {
-        previouslySelectedCategory = categoryName
+    func checkDataPresence() {
+        isData = !categories.isEmpty
     }
 
+    init() {
+        store.delegate = self
+        categories = store.categories.map { $0.title }
+        checkDataPresence()
+    }
+    
     func getNumberOfCategories() -> Int {
         categories = store.categories.map { $0.title }
         return categories.count
-    }
-    
-    func getSelectedCategory(forIndexPath indexPath: IndexPath) -> String {
-        return categories[indexPath.row]
-    }
-
-    func deleteCategoryFromStore(at index: Int) {
-        store.deleteCategory(withName: categories[index])
-    }
-
-    func editCategory(at index: Int) {
-        oldCategory = categories[index]
-        controller?.present(
-            CategoryCreationScreenController(delegate: self),
-            animated: true
-        )
     }
 
     func configureCell(
@@ -105,9 +88,24 @@ final class TrackerCategoryScreenPresenter {
         return cell
     }
 
+    func setPreviouslySelectedCategory(with categoryName: String) {
+        previouslySelectedCategory = categoryName
+    }
+
+    func getSelectedCategory(forIndexPath indexPath: IndexPath) -> String {
+        return categories[indexPath.row]
+    }
+
+    func deleteCategoryFromStore(at index: Int) {
+        store.deleteCategory(withName: categories[index])
+    }
+
+    func editCategory(at index: Int) {
+        oldCategory = categories[index]
+    }
 }
 
-extension TrackerCategoryScreenPresenter: CategoryOperationsDelegate {
+extension TrackerCategoryScreenViewModel: CategoryOperationsDelegate {
     var category: String {
         oldCategory
     }
@@ -115,10 +113,16 @@ extension TrackerCategoryScreenPresenter: CategoryOperationsDelegate {
     func editingCategoryCanceled() {
         oldCategory = ""
     }
-        
+    
+
     func updateCategory(toName newCategory: String) {
-        store.updateExistingCategoryName(from: oldCategory, to: newCategory)
-        controller?.screenView.categoriesTableView.reloadData()
+        store.updateExistingCategoryName(
+            from: oldCategory,
+            to: newCategory
+        )
+        
+        shouldTableBeReloaded = true
+        checkDataPresence()
     }
 
     func saveNewCategory(named name: String) {
@@ -130,28 +134,17 @@ extension TrackerCategoryScreenPresenter: CategoryOperationsDelegate {
                     trackers: []
                 )
             )
-            controller?.screenView.categoriesTableView.reloadData()
-            updateTableViewHiddenState(isToBeHidden: categories.isEmpty)
+            
+            shouldTableBeReloaded = true
+            checkDataPresence()
         }
     }
 }
 
-extension TrackerCategoryScreenPresenter: TrackerCategoryStoreDelegate {
+extension TrackerCategoryScreenViewModel: TrackerCategoryStoreDelegate {
     func didUpdate(_ update: TrackerCategoryStoreUpdate) {
-        guard let tableView = controller?.screenView.categoriesTableView else {
-            return
-        }
-        
-        tableView.performBatchUpdates {
-            let insertedIndexPaths = update.insertedIndexes.map {
-                IndexPath(item: $0, section: 0)
-            }
-            let deletedIndexPaths = update.deletedIndexes.map {
-                IndexPath(item: $0, section: 0)
-            }
-            tableView.insertRows(at: insertedIndexPaths, with: .automatic)
-            tableView.deleteRows(at: deletedIndexPaths, with: .fade)
-        }
+        isData = categories.isEmpty
+        updates = update
     }
 }
 
