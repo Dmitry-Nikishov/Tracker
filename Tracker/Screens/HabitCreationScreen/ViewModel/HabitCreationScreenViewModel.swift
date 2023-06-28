@@ -44,7 +44,7 @@ final class HabitCreationScreenViewModel {
         }
     }
     
-    func didEnter(_ text: String?) {
+    func setTrackerName(_ text: String?) {
         trackerName = text ?? ""
     }
 

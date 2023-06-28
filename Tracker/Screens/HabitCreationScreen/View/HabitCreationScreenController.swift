@@ -62,6 +62,7 @@ final class HabitCreationScreenController: StyledScreenController {
             )
         )
         view.leftViewMode = .always
+        view.addTarget(nil, action: #selector(textFieldChangeHandler), for: .editingChanged)
         return view
     }()
 
@@ -323,15 +324,12 @@ final class HabitCreationScreenController: StyledScreenController {
         super.viewDidLoad()
         setupSubView()
     }
-}
-
-
-extension HabitCreationScreenController {
-    @objc private func textFieldDidChange() {
-        viewModel?.didEnter(trackerTitleTextField.text)
+    
+    @objc private func textFieldChangeHandler() {
+        viewModel?.setTrackerName(trackerTitleTextField.text)
     }
-
-    func modifyCreateButtonState() {
+    
+    private func modifyCreateButtonState() {
         if viewModel?.canHabitBeCreated() ?? false {
             createButton.backgroundColor = .appBlack
             createButton.isEnabled = true
