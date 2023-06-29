@@ -96,8 +96,10 @@ final class TrackerCategoryScreenViewModel {
         return categories[indexPath.row]
     }
 
-    func deleteCategoryFromStore(at index: Int) {
+    func deleteCategory(at index: Int) {
         store.deleteCategory(withName: categories[index])
+        shouldTableBeReloaded = true
+        checkDataPresence()
     }
 
     func editCategory(at index: Int) {

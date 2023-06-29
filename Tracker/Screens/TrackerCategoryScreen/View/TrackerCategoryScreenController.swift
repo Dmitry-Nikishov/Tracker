@@ -144,9 +144,7 @@ final class TrackerCategoryScreenController: StyledScreenController {
             title: "Удалить",
             style: .destructive
         ) { [weak self] _ in
-            self?.viewModel?.deleteCategoryFromStore(at: indexPath.row)
-            self?.categoriesTableView.reloadData()
-            self?.viewModel?.checkDataPresence()
+            self?.viewModel?.deleteCategory(at: indexPath.row)
         }
         let cancelAction = UIAlertAction(
             title: "Отменить",

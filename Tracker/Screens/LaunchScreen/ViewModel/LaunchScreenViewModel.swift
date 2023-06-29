@@ -15,5 +15,3 @@ final class LaunchScreenViewModel {
         hasOnboardingBeenAccepted = UserDefaultsAccessor.shared.isOnboardingAccepted
     }
 }
-
-
