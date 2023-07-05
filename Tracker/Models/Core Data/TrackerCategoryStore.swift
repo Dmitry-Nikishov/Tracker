@@ -116,6 +116,8 @@ final class TrackerCategoryStore: NSObject {
             cdTracker.color = tracker.color.getHex()
             cdTracker.emoji = tracker.emoji
             cdTracker.schedule = tracker.schedule.map {$0.rawValue}
+            cdTracker.isPinned = tracker.isPinned
+            cdTracker.categoryName = tracker.categoryName
             trackers.append(cdTracker)
         }
         cdCategory.trackers = NSSet(array: trackers)
@@ -162,7 +164,9 @@ final class TrackerCategoryStore: NSObject {
                     color: UIColor().getColor(
                         from: tracker.color ?? ""
                     ),
-                    schedule: schedule
+                    schedule: schedule,
+                    isPinned: tracker.isPinned,
+                    categoryName: tracker.categoryName ?? ""
                 )
             )
         }

@@ -11,6 +11,12 @@ final class HabitCreationScreenViewModel {
     @Observable
     private(set) var shouldCreateButtonBeUnlocked: Bool = false
 
+    @Observable
+    private(set) var canUpdateUIForEditing: Bool = false
+    
+    private var trackerID: UUID?
+    private var trackerIsPinned: Bool = false
+    
     private let emojis = [
         "🙂", "😻", "🌺", "🐶", "❤️", "😱",
         "😇", "😡", "🥶", "🤔", "🙌", "🍔",
@@ -42,6 +48,11 @@ final class HabitCreationScreenViewModel {
                 selectedDays.append(dayKey)
             }
         }
+    }
+    
+    convenience init(trackerToEdit: Tracker) {
+        self.init()
+        prepareDataForEditing(trackerToEdit)
     }
     
     func setTrackerName(_ text: String?) {
@@ -84,11 +95,13 @@ final class HabitCreationScreenViewModel {
         return TrackerCategory(
             title: selectedCategory,
             trackers: [
-                        Tracker(id: UUID(),
+                        Tracker(id: trackerID ?? UUID(),
                                 name: trackerName,
                                 emoji: selectedEmoji,
                                 color: selectedColor ?? UIColor(),
-                                schedule: schedule)
+                                schedule: schedule,
+                                isPinned: trackerIsPinned,
+                                categoryName: selectedCategory)
                     ]
         )
     }
@@ -118,6 +131,11 @@ final class HabitCreationScreenViewModel {
                 bottom: 0,
                 right: isNonRegularEvent ? tableView.bounds.width : 15
             )
+            
+            if !selectedCategory.isEmpty {
+                selectedCell = cell
+                updateCategory(withCategory: selectedCategory)
+            }
         } else {
             cell = (tableView.dequeueReusableCell(
                 withIdentifier: String(
@@ -131,6 +149,11 @@ final class HabitCreationScreenViewModel {
                 bottom: 0,
                 right: tableView.bounds.width
             )
+            
+            if !selectedDaysRaw.isEmpty {
+                selectedCell = cell
+                updateSchedule(withDays: selectedDaysRaw)
+            }
         }
         cell.tintColor = .appGray
         cell.backgroundColor = .clear
@@ -172,6 +195,28 @@ final class HabitCreationScreenViewModel {
         }
         return UICollectionViewCell()
     }
+    
+    func prepareDataForEditing(_ trackerToEdit: Tracker) {
+         trackerID = trackerToEdit.id
+         trackerName = trackerToEdit.name
+         selectedEmoji = trackerToEdit.emoji
+         selectedColor = trackerToEdit.color
+         selectedSchedule = trackerToEdit.schedule
+         selectedDays = selectedSchedule.map { WeekDay.getShortWeekDay(for: $0.rawValue) ?? "" }
+         trackerIsPinned = trackerToEdit.isPinned
+         updateCategory(withCategory: trackerToEdit.categoryName)
+         updateSchedule(withDays: selectedSchedule.map { $0.rawValue.localized })
+     }
+
+     func getEmojiIndex() -> IndexPath {
+         IndexPath(row: emojis.firstIndex(of: selectedEmoji) ?? 0,
+                   section: 0)
+     }
+
+     func getColorIndex() -> IndexPath {
+         return IndexPath(row: colors.map { $0.getHex() }.firstIndex(of: selectedColor?.getHex()) ?? 0,
+                   section: 0)
+     }
 }
 
 extension HabitCreationScreenViewModel: TrackerCategoryConfigurationDelegate {
@@ -213,7 +258,7 @@ extension HabitCreationScreenViewModel: ScheduleConfigurationDelegate {
         }
         
         if days.count == 7 {
-            cell.infoLabel.text = "Каждый день"
+            cell.infoLabel.text = "EVERYDAY".localized
         } else {
             cell.infoLabel.text = String(selectedDays.joined(separator: ", "))
         }

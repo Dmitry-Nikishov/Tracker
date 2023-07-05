@@ -8,6 +8,8 @@
 import UIKit
 
 final class TrackerSelectionScreenController: StyledScreenController {
+    private let analyticsService = AnalyticsService()
+    
     private lazy var titleLabel: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -17,7 +19,7 @@ final class TrackerSelectionScreenController: StyledScreenController {
         view.numberOfLines = 0
         view.adjustsFontSizeToFitWidth = true
         view.minimumScaleFactor = 0.7
-        view.text = "Создание трекера"
+        view.text = "TRACKER_CREATION".localized
         return view
     }()
 
@@ -36,7 +38,7 @@ final class TrackerSelectionScreenController: StyledScreenController {
         view.backgroundColor = .appBlack
         view.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         view.setTitleColor(.appWhite, for: .normal)
-        view.setTitle("Привычка", for: .normal)
+        view.setTitle("HABIT".localized, for: .normal)
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
         view.addTarget(nil, action: #selector(habitButtonClicked), for: .touchUpInside)
@@ -49,7 +51,7 @@ final class TrackerSelectionScreenController: StyledScreenController {
         view.backgroundColor = .appBlack
         view.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         view.setTitleColor(.appWhite, for: .normal)
-        view.setTitle("Нерегулярное событие", for: .normal)
+        view.setTitle("NONREGULAR_EVENT".localized, for: .normal)
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
         view.addTarget(nil, action: #selector(eventButtonClicked), for: .touchUpInside)
@@ -80,13 +82,44 @@ final class TrackerSelectionScreenController: StyledScreenController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSubView()
+        
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.click,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.trackers,
+                "item": AppConstants.YandexMobileMetrica.Items.addTrack
+            ]
+        )
+        
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.open,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.trackerSelection
+            ]
+        )
     }
 
     @objc private func habitButtonClicked() {
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.click,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.trackerSelection,
+                "item": AppConstants.YandexMobileMetrica.Items.habit
+            ]
+        )
+
         present(HabitCreationScreenController(), animated: true)
     }
     
     @objc private func eventButtonClicked() {
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.click,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.trackerSelection,
+                "item": AppConstants.YandexMobileMetrica.Items.event
+            ]
+        )
+
         present(HabitCreationScreenController(isNonRegularEvent: true), animated: true)
     }
     
@@ -100,5 +133,17 @@ final class TrackerSelectionScreenController: StyledScreenController {
             destinationVc?.updateCollectionView()
         }
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.close,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.trackerSelection
+            ]
+        )
+    }
+
 }
 

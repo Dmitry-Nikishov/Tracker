@@ -17,6 +17,7 @@ protocol CategoryOperationsDelegate: AnyObject {
 
 final class CategoryCreationScreenController: StyledScreenController {
     weak var delegate: CategoryOperationsDelegate?
+    private let analyticsService = AnalyticsService()
 
     private lazy var titleLabel = {
         let view = UILabel()
@@ -27,7 +28,7 @@ final class CategoryCreationScreenController: StyledScreenController {
         view.numberOfLines = 0
         view.adjustsFontSizeToFitWidth = true
         view.minimumScaleFactor = 0.7
-        view.text = "Новая категория"
+        view.text = "NEW_CATEGORY".localized
         return view
     }()
     
@@ -58,7 +59,7 @@ final class CategoryCreationScreenController: StyledScreenController {
                     systemName: "xmark.circle.fill"
                 )?.withRenderingMode(.alwaysTemplate), for: .normal)
         }
-        view.placeholder = "Введите название категории"
+        view.placeholder = "ENTER_CATEGORY_NAME".localized
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
         view.backgroundColor = .appGray.withAlphaComponent(0.3)
@@ -86,7 +87,7 @@ final class CategoryCreationScreenController: StyledScreenController {
         view.numberOfLines = 0
         view.adjustsFontSizeToFitWidth = true
         view.minimumScaleFactor = 0.7
-        view.text = "Ограничение кол-ва символов : 18"
+        view.text = "SYMBOLS_LIMIT_18".localized
         return view
     }()
 
@@ -97,7 +98,7 @@ final class CategoryCreationScreenController: StyledScreenController {
         view.backgroundColor = .appGray
         view.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         view.setTitleColor(.appWhite, for: .normal)
-        view.setTitle("Готово", for: .normal)
+        view.setTitle("DONE".localized, for: .normal)
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
         view.addTarget(nil, action: #selector(finishedButtonClicked), for: .touchUpInside)
@@ -142,7 +143,7 @@ final class CategoryCreationScreenController: StyledScreenController {
         
         categoryNameTextField.delegate = self
         if delegate?.category != "" {
-            titleLabel.text = "Редактирование категории"
+            titleLabel.text = "EDITING_CATEGORY".localized
             categoryNameTextField.text = delegate?.category ?? ""
         }
     }
@@ -150,6 +151,13 @@ final class CategoryCreationScreenController: StyledScreenController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSubViews()
+        
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.open,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.categoryCreation
+            ]
+        )
     }
 
     override func viewWillDisappear(_ animated: Bool) {
@@ -158,7 +166,25 @@ final class CategoryCreationScreenController: StyledScreenController {
         }
     }
     
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.close,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.categoryCreation
+            ]
+        )
+    }
+    
     @objc private func finishedButtonClicked() {
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.click,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.categoryCreation,
+                "item": AppConstants.YandexMobileMetrica.Items.confirmCategoryCreation
+            ]
+        )
+
         let categoryName = categoryNameTextField.text ?? ""
         if delegate?.category != "" {
             delegate?.updateCategory(toName: categoryName)

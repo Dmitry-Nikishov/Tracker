@@ -15,6 +15,7 @@ protocol TrackerCategoryConfigurationDelegate: AnyObject {
 final class TrackerCategoryScreenController: StyledScreenController {
     weak var delegate: TrackerCategoryConfigurationDelegate?
     private var viewModel: TrackerCategoryScreenViewModel?
+    private let analyticsService = AnalyticsService()
 
     private lazy var titleLabel: UILabel = {
         let view = UILabel()
@@ -25,7 +26,7 @@ final class TrackerCategoryScreenController: StyledScreenController {
         view.numberOfLines = 0
         view.adjustsFontSizeToFitWidth = true
         view.minimumScaleFactor = 0.7
-        view.text = "Категория"
+        view.text = "CATEGORY".localized
         return view
     }()
 
@@ -45,7 +46,7 @@ final class TrackerCategoryScreenController: StyledScreenController {
         view.numberOfLines = 0
         view.adjustsFontSizeToFitWidth = true
         view.minimumScaleFactor = 0.7
-        view.text = "Привычки и события можно объединить по смыслу"
+        view.text = "HABITS_AND_EVENTS_CAN_BE_COMBINED".localized
         return view
     }()
 
@@ -70,7 +71,7 @@ final class TrackerCategoryScreenController: StyledScreenController {
         view.backgroundColor = .appBlack
         view.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         view.setTitleColor(.appWhite, for: .normal)
-        view.setTitle("Добавить категорию", for: .normal)
+        view.setTitle("ADD_CATEGORY".localized, for: .normal)
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
         view.addTarget(nil, action: #selector(addButtonClicked), for: .touchUpInside)
@@ -78,6 +79,14 @@ final class TrackerCategoryScreenController: StyledScreenController {
     }()
     
     @objc private func addButtonClicked() {
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.click,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.categoryCreation,
+                "item": AppConstants.YandexMobileMetrica.Items.addCategory
+            ]
+        )
+
         present(
             CategoryCreationScreenController(
                 delegate: viewModel
@@ -136,18 +145,18 @@ final class TrackerCategoryScreenController: StyledScreenController {
 
     private func showAlertWhenDeleting(for indexPath: IndexPath) {
         let controller = UIAlertController(
-            title: "Эта категория точно не нужна?",
+            title: "CATEGORY_IS_REALLY_REQUIRED".localized,
             message: nil,
             preferredStyle: .actionSheet
         )
         let deleteAction = UIAlertAction(
-            title: "Удалить",
+            title: "DELETE".localized,
             style: .destructive
         ) { [weak self] _ in
             self?.viewModel?.deleteCategory(at: indexPath.row)
         }
         let cancelAction = UIAlertAction(
-            title: "Отменить",
+            title: "CANCEL".localized,
             style: .cancel
         )
         controller.addAction(deleteAction)
@@ -195,6 +204,24 @@ final class TrackerCategoryScreenController: StyledScreenController {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSubViews()
+        
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.open,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.categoryCreation
+            ]
+        )
+    }
+
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.close,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.categoryCreation
+            ]
+        )
     }
 }
 
@@ -231,7 +258,7 @@ extension TrackerCategoryScreenController: UITableViewDelegate {
     ) -> UIContextMenuConfiguration? {
         return UIContextMenuConfiguration(actionProvider: { [weak self] _ in
             return UIMenu(children: [
-                UIAction(title: "Редактировать") { _ in
+                UIAction(title: "EDIT".localized) { _ in
                     guard let viewModel = self?.viewModel else { return }
                     viewModel.editCategory(at: indexPath.row)
                     self?.present(
@@ -240,7 +267,7 @@ extension TrackerCategoryScreenController: UITableViewDelegate {
                         ), animated: true
                     )
                 },
-                UIAction(title: "Удалить", attributes: .destructive) { _ in
+                UIAction(title: "DELETE".localized, attributes: .destructive) { _ in
                     self?.showAlertWhenDeleting(for: indexPath)
                 }
             ])

@@ -35,12 +35,12 @@ final class AppTabBarController: UITabBarController {
         self.viewControllers = [
             configureTabItem(
                 controller: trackersController,
-                title: "Трекеры",
+                title: "TRACKERS".localized,
                 andImage: UIImage(named: "TrackerTabBarIcon") ?? UIImage()
             ),
             configureTabItem(
                 controller: statisticsController,
-                title: "Статистика",
+                title: "STATISTICS".localized,
                 andImage: UIImage(named: "StatisticsTabBarIcon") ?? UIImage()
             )
         ]

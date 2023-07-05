@@ -8,9 +8,11 @@
 import UIKit
 
 final class HabitCreationScreenController: StyledScreenController {
-    var viewModel: HabitCreationScreenViewModel?
-    var isNonRegularEvent: Bool = false
-
+    private var viewModel: HabitCreationScreenViewModel?
+    private var isNonRegularEvent: Bool = false
+    private let analyticsService = AnalyticsService()
+    private var trackerToEdit: Tracker?
+    
     private lazy var titleLabel: UILabel = {
         let view = UILabel()
         view.translatesAutoresizingMaskIntoConstraints = false
@@ -20,7 +22,7 @@ final class HabitCreationScreenController: StyledScreenController {
         view.numberOfLines = 0
         view.adjustsFontSizeToFitWidth = true
         view.minimumScaleFactor = 0.7
-        view.text = "Новая привычка"
+        view.text = "NEW_HABIT".localized
         return view
     }()
 
@@ -45,10 +47,63 @@ final class HabitCreationScreenController: StyledScreenController {
         return view
     }()
 
+    private lazy var counterStackView: UIStackView = {
+        let view = UIStackView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.axis = .horizontal
+        view.distribution = .fill
+        view.alignment = .center
+        view.spacing = 24
+        return view
+    }()
+
+    private lazy var decreaseCountButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .appBlack
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        button.setTitleColor(.appWhite, for: .normal)
+        button.setTitle(title, for: .normal)
+        button.addTarget(nil, action: #selector(decreaseButtonClicked), for: .touchUpInside)
+        button.setImage(UIImage(systemName: "minus"), for: .normal)
+        button.tintColor = .appWhite
+        button.layer.masksToBounds = true
+        button.layer.cornerRadius = 17
+        return button
+    }()
+
+    private lazy var counterLabel: UILabel = {
+        let view = UILabel()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.font = UIFont.systemFont(ofSize: 32, weight: .bold)
+        view.textColor = .appBlack
+        view.textAlignment = .center
+        view.numberOfLines = 0
+        view.adjustsFontSizeToFitWidth = true
+        view.minimumScaleFactor = 0.7
+        view.text = "0"
+        return view
+    }()
+
+    private lazy var increaseCountButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .appBlack
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
+        button.setTitleColor(.appWhite, for: .normal)
+        button.setTitle(title, for: .normal)
+        button.addTarget(nil, action: #selector(increaseButtonClicked), for: .touchUpInside)
+        button.setImage(UIImage(systemName: "minus"), for: .normal)
+        button.tintColor = .appWhite
+        button.layer.masksToBounds = true
+        button.layer.cornerRadius = 17
+        return button
+    }()
+
     private lazy var trackerTitleTextField: UITextField = {
         let view = UITextField()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.placeholder = "Введите название трекера"
+        view.placeholder = "ENTER_TRACKER_NAME".localized
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
         view.backgroundColor = .appGray.withAlphaComponent(0.3)
@@ -75,7 +130,7 @@ final class HabitCreationScreenController: StyledScreenController {
         view.numberOfLines = 0
         view.adjustsFontSizeToFitWidth = true
         view.minimumScaleFactor = 0.7
-        view.text = "Ограничение кол-ва символов : 38"
+        view.text = "SYMBOLS_LIMIT_38".localized
         view.isHidden = true
         return view
     }()
@@ -138,7 +193,7 @@ final class HabitCreationScreenController: StyledScreenController {
         view.numberOfLines = 0
         view.adjustsFontSizeToFitWidth = true
         view.minimumScaleFactor = 0.7
-        view.text = "Цвет"
+        view.text = "COLOR".localized
         return view
     }()
 
@@ -175,7 +230,7 @@ final class HabitCreationScreenController: StyledScreenController {
         view.backgroundColor = .appWhite
         view.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         view.setTitleColor(.appRed, for: .normal)
-        view.setTitle("Отменить", for: .normal)
+        view.setTitle("CANCEL".localized, for: .normal)
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
         view.layer.borderWidth = 1
@@ -195,7 +250,7 @@ final class HabitCreationScreenController: StyledScreenController {
         view.backgroundColor = .appGray
         view.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         view.setTitleColor(.appWhite, for: .normal)
-        view.setTitle("Создать", for: .normal)
+        view.setTitle("CREATE".localized, for: .normal)
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
         view.isEnabled = false
@@ -212,8 +267,22 @@ final class HabitCreationScreenController: StyledScreenController {
         self.isNonRegularEvent = isNonRegularEvent
     }
     
+    convenience init(trackerToEdit: Tracker, counter: Int) {
+        self.init()
+        self.trackerToEdit = trackerToEdit
+        self.counterLabel.text = "\(counter)"
+    }
+
     @objc
     private func createButtonClicked() {
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.click,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.trackerCreation,
+                "item": AppConstants.YandexMobileMetrica.Items.confirmTrackerCreation
+            ]
+        )
+
         if let top = UIApplication.shared.windows.filter({
             $0.isKeyWindow
         }).first?.rootViewController {
@@ -227,9 +296,31 @@ final class HabitCreationScreenController: StyledScreenController {
     
     @objc
     private func cancelButtonClicked() {
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.click,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.trackerCreation,
+                "item": AppConstants.YandexMobileMetrica.Items.cancelTrackerCreation
+            ]
+        )
+
         self.dismiss(animated: true)
     }
     
+    @objc
+    private func decreaseButtonClicked() {
+        if let count = Int(counterLabel.text ?? "") {
+            counterLabel.text = "\(count == 0 ? 0 : count - 1)"
+        }
+    }
+
+    @objc
+    private func increaseButtonClicked() {
+        if let count = Int(counterLabel.text ?? "") {
+            counterLabel.text = "\(count + 1)"
+        }
+    }
+
     private func configureKeyboardHiding() {
         let tap = UITapGestureRecognizer(
             target: view,
@@ -306,7 +397,14 @@ final class HabitCreationScreenController: StyledScreenController {
         ]
         NSLayoutConstraint.activate(constraints)
         
-        viewModel = HabitCreationScreenViewModel(isNonRegularEvent: isNonRegularEvent)
+        if let trackerToEdit {
+            counterStackView.isHidden = false
+            viewModel = HabitCreationScreenViewModel(trackerToEdit: trackerToEdit)
+        } else {
+            counterStackView.isHidden = true
+            viewModel = HabitCreationScreenViewModel(isNonRegularEvent: isNonRegularEvent)
+        }
+        
         setupBinding()
         setupDelegates()
         
@@ -316,14 +414,33 @@ final class HabitCreationScreenController: StyledScreenController {
             .isActive = true
         
         if isNonRegularEvent {
-            titleLabel.text = "Новое нерегулярное событие"
+            titleLabel.text = "NEW_NON_REGULAR_EVENT".localized
         }
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         setupSubView()
+        
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.open,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.trackerCreation
+            ]
+        )
     }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.close,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.trackerCreation
+            ]
+        )
+    }
+
     
     @objc private func textFieldChangeHandler() {
         viewModel?.setTrackerName(trackerTitleTextField.text)
@@ -449,10 +566,26 @@ extension HabitCreationScreenController: UICollectionViewDelegate {
             guard let cell = collectionView.cellForItem(at: indexPath) as? EmojiCellView else { return }
             cell.frameView.isHidden = false
             viewModel?.setSelectedEmoji(emoji: cell.emojiIconLabel.text ?? "")
+            
+            analyticsService.sendReport(
+                event: AppConstants.YandexMobileMetrica.Events.click,
+                params: [
+                    "screen": AppConstants.YandexMobileMetrica.Screens.trackerCreation,
+                    "item": "\(AppConstants.YandexMobileMetrica.Items.emoji)\(cell.emojiIconLabel.text ?? "")"
+                ]
+            )
         } else {
             guard let cell = collectionView.cellForItem(at: indexPath) as? ColorCellView else { return }
             cell.frameView.layer.borderWidth = 3
             viewModel?.setSelectedColor(color: cell.colorView.backgroundColor)
+            
+            analyticsService.sendReport(
+                event: AppConstants.YandexMobileMetrica.Events.click,
+                params: [
+                    "screen": AppConstants.YandexMobileMetrica.Screens.trackerCreation,
+                    "item": "\(AppConstants.YandexMobileMetrica.Items.color)\(cell.colorView.backgroundColor?.getHex() ?? "")"
+                ]
+            )
         }
         modifyCreateButtonState()
     }
