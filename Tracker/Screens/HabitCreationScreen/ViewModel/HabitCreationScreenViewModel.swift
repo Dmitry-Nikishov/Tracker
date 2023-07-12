@@ -106,7 +106,7 @@ final class HabitCreationScreenViewModel {
         )
     }
     
-    func canHabitBeCreated() -> Bool {
+    func canHabitBeCreated() -> Bool {        
         guard !trackerName.isEmpty,
               !selectedCategory.isEmpty,
               !selectedDays.isEmpty,
@@ -197,15 +197,15 @@ final class HabitCreationScreenViewModel {
     }
     
     func prepareDataForEditing(_ trackerToEdit: Tracker) {
-         trackerID = trackerToEdit.id
-         trackerName = trackerToEdit.name
-         selectedEmoji = trackerToEdit.emoji
-         selectedColor = trackerToEdit.color
-         selectedSchedule = trackerToEdit.schedule
-         selectedDays = selectedSchedule.map { WeekDay.getShortWeekDay(for: $0.rawValue) ?? "" }
-         trackerIsPinned = trackerToEdit.isPinned
-         updateCategory(withCategory: trackerToEdit.categoryName)
-         updateSchedule(withDays: selectedSchedule.map { $0.rawValue.localized })
+        trackerID = trackerToEdit.id
+        trackerName = trackerToEdit.name
+        selectedEmoji = trackerToEdit.emoji
+        selectedColor = trackerToEdit.color
+        selectedSchedule = trackerToEdit.schedule
+        selectedDays = selectedSchedule.map { WeekDay.getShortWeekDay(for: $0.rawValue) ?? "" }
+        trackerIsPinned = trackerToEdit.isPinned
+        updateCategory(withCategory: trackerToEdit.categoryName)
+        updateSchedule(withDays: selectedSchedule.map { $0.rawValue.localized })
      }
 
      func getEmojiIndex() -> IndexPath {
@@ -252,7 +252,7 @@ extension HabitCreationScreenViewModel: ScheduleConfigurationDelegate {
             if let shortDay = WeekDay.getShortWeekDay(for: item) {
                 selectedDays.append(shortDay)
             }
-            if let scheduleItem = WeekDay(rawValue: item) {
+            if let scheduleItem = WeekDay.getWeekDayKey(for: item) {
                 selectedSchedule.append(scheduleItem)
             }
         }

@@ -25,9 +25,23 @@ enum WeekDay: String, CaseIterable {
         "SATURDAY".localized: "SATURDAY_SHORT".localized,
         "SUNDAY".localized: "SUNDAY_SHORT".localized
     ]
+    
+    private static let scheduleKeys: [String: WeekDay] = [
+        "MONDAY".localized: .monday,
+        "TUESDAY".localized: .tuesday,
+        "WEDNESDAY".localized: .wednesday,
+        "THURSDAY".localized: .thursday,
+        "FRIDAY".localized: .friday,
+        "SATURDAY".localized: .saturday,
+        "SUNDAY".localized: .sunday
+    ]
+
+    static func getWeekDayKey(for weekDay: String) -> WeekDay? {
+        return scheduleKeys[weekDay]
+    }
 
     static func getShortWeekDay(for day: String) -> String? {        
-        return daysMapping[day]
+        return daysMapping[day.localized]
     }
 
     static func getWeekDay(for date: Date) -> WeekDay {

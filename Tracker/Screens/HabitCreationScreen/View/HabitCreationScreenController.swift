@@ -441,7 +441,6 @@ final class HabitCreationScreenController: StyledScreenController {
         )
     }
 
-    
     @objc private func textFieldChangeHandler() {
         viewModel?.setTrackerName(trackerTitleTextField.text)
     }
