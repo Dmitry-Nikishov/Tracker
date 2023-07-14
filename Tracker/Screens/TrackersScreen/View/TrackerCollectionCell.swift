@@ -34,7 +34,7 @@ final class TrackerCollectionCell: UICollectionViewCell {
         view.minimumScaleFactor = 0.7
         view.layer.masksToBounds = true
         view.layer.cornerRadius = 12
-        view.backgroundColor = .appWhite.withAlphaComponent(0.3)
+        view.backgroundColor = .appWhiteForever.withAlphaComponent(0.3)
         return view
     }()
     
@@ -83,6 +83,13 @@ final class TrackerCollectionCell: UICollectionViewCell {
         return button
     }()
     
+    lazy var pinIcon: UIImageView = {
+        let view = UIImageView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.image = UIImage(named: "PinIcon")
+        return view
+    }()
+    
     private func setupSubViews() {
         taskArea.addSubview(taskLabel)
         taskArea.addSubview(taskName)
@@ -90,6 +97,7 @@ final class TrackerCollectionCell: UICollectionViewCell {
         addSubview(taskArea)
         addSubview(counterLabel)
         addSubview(counterButton)
+        addSubview(pinIcon)
         
         let constraints = [
             taskArea.heightAnchor.constraint(equalToConstant: 90),
@@ -144,7 +152,10 @@ final class TrackerCollectionCell: UICollectionViewCell {
             ),
             counterLabel.centerYAnchor.constraint(
                 equalTo: counterButton.centerYAnchor
-            )
+            ),
+            pinIcon.heightAnchor.constraint(equalToConstant: 12),
+            pinIcon.topAnchor.constraint(equalTo: topAnchor, constant: 18),
+            pinIcon.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -12)
         ]
         
         NSLayoutConstraint.activate(constraints)

@@ -1,0 +1,65 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Дмитрий Никишов on 05.07.2023.
+  
+*/
+MONITOR_WHAT_YOU_NEED = "Отслеживайте только то, что хотите";
+EVEN_IF_IT_IS_NOT_LITERS_OF_WATER_OR_YOGA = "Даже если это не литры воды и йога";
+WHAT_TECHNOLOGIES = "Вот это технологии!";
+WHAT_TO_TRACK = "Что будем отслеживать?";
+SEARCH = "Поиск";
+CANCEL = "Отменить";
+FILTERS = "Фильтры";
+TRACKER_CREATION = "Создание трекера";
+HABIT = "Привычка";
+NONREGULAR_EVENT = "Нерегулярное событие";
+CATEGORY = "Категория";
+SCHEDULE = "Расписание";
+NEW_HABIT = "Новая привычка";
+NEW_NON_REGULAR_EVENT = "Новое нерегулярное событие";
+ENTER_TRACKER_NAME = "Введите название трекера";
+SYMBOLS_LIMIT_38 = "Ограничение кол-ва символов : 38";
+SYMBOLS_LIMIT_18 = "Ограничение кол-ва символов : 18";
+COLOR = "Цвет";
+CREATE = "Создать";
+HABITS_AND_EVENTS_CAN_BE_COMBINED = "Привычки и события можно объединить по смыслу";
+ADD_CATEGORY = "Добавить категорию";
+CATEGORY_IS_REALLY_REQUIRED = "Эта категория точно не нужна?";
+DELETE = "Удалить";
+EDIT = "Редактировать";
+NEW_CATEGORY = "Новая категория";
+ENTER_CATEGORY_NAME = "Введите название категории";
+DONE = "Готово";
+EDITING_CATEGORY = "Редактирование категории";
+TRACKERS = "Трекеры";
+STATISTICS = "Статистика";
+MONDAY = "Понедельник";
+TUESDAY = "Вторник";
+WEDNESDAY = "Среда";
+THURSDAY = "Четверг";
+FRIDAY = "Пятница";
+SATURDAY = "Суббота";
+SUNDAY = "Воскресенье";
+MONDAY_SHORT = "Пн";
+TUESDAY_SHORT = "Вт";
+WEDNESDAY_SHORT = "Ср";
+THURSDAY_SHORT = "Чт";
+FRIDAY_SHORT = "Пт";
+SATURDAY_SHORT = "Сб";
+SUNDAY_SHORT = "Вс";
+EVERYDAY = "Каждый день";
+DAY = "день";
+DAYS = "дней";
+DAYS_LANGUAGE_SENSITIVE = "дня";
+PIN = "Закрепить";
+UNPIN = "Открепить";
+TRACKER_DELETION = "Уверены что хотите удалить трекер?";
+PINNED = "Закрепленные";
+NOTHING_FOUND = "Ничего не найдено";
+NOTHING_TO_ANALYZE = "Анализировать пока нечего";
+BEST_PERIOD = "Лучший период";
+IDEAL_DAYS = "Идеальные дни";
+TRACKERS_COMPLETED = "Трекеров завершено";
+AVERAGE_VALUE = "Среднее значение";

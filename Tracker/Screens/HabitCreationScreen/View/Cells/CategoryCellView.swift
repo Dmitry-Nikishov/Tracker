@@ -26,7 +26,7 @@ final class CategoryCellView: UITableViewCell {
         view.numberOfLines = 0
         view.adjustsFontSizeToFitWidth = true
         view.minimumScaleFactor = 0.7
-        view.text = "Категория"
+        view.text = "CATEGORY".localized
         return view
     }()
     

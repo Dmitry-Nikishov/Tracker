@@ -26,7 +26,7 @@ final class ScheduleCellView: UITableViewCell {
         view.numberOfLines = 0
         view.adjustsFontSizeToFitWidth = true
         view.minimumScaleFactor = 0.7
-        view.text = "Расписание"
+        view.text = "SCHEDULE".localized
         return view
     }()
 

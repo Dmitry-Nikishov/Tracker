@@ -8,6 +8,10 @@
 import UIKit
 
 extension UIColor {
+    static var appGradientRed: UIColor { UIColor(named: "App Gradient Red") ?? .red }
+    static var appGradientBlue: UIColor { UIColor(named: "App Gradient Blue") ?? .red }
+    static var appGradientSky: UIColor { UIColor(named: "App Gradient Sky") ?? .red }
+
     static var appBackground: UIColor { UIColor(named: "AppBackground") ?? .clear }
     static var appBlack: UIColor { UIColor(named: "AppBlack") ?? .clear }
     static var appBlue: UIColor { UIColor(named: "AppBlue") ?? .clear }
@@ -15,6 +19,7 @@ extension UIColor {
     static var appLightGray: UIColor { UIColor(named: "AppLightGray") ?? .clear }
     static var appRed: UIColor { UIColor(named: "AppRed") ?? .clear }
     static var appWhite: UIColor { UIColor(named: "AppWhite") ?? .clear }
+    static var appWhiteForever: UIColor { UIColor(named: "AppWhiteForever") ?? .clear }
     static var appGreen: UIColor { UIColor(named: "5") ?? .clear }
     static var appRedLight: UIColor { UIColor(named: "AppRedLight") ?? .red }
     

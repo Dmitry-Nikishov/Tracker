@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "PinIcon.pdf",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

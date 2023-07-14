@@ -1,0 +1,66 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Дмитрий Никишов on 05.07.2023.
+  
+*/
+MONITOR_WHAT_YOU_NEED= "Verfolgen Sie nur, was Sie wollen";
+EVEN_IF_IT_IS_NOT_LITERS_OF_WATER_OR_YOGA= "Auch wenn es nicht literweise Wasser und Yoga sind";
+WHAT_TECHNOLOGIES= "Das ist Technologie!";
+WHAT_TO_TRACK= "Was werden wir verfolgen?";
+SEARCH= "Suchen";
+CANCEL= "Stornieren";
+FILTERS= "Filter";
+TRACKER_CREATION= "Erstellen eines Trackers";
+HABIT= "Gewohnheit";
+NONREGULAR_EVENT= "unregelmäßiges Ereignis";
+CATEGORY= "Kategorie";
+SCHEDULE= "Zeitplan";
+NEW_HABIT= "neue Gewohnheit";
+NEW_NON_REGULAR_EVENT= "Neues unregelmäßiges Ereignis";
+ENTER_TRACKER_NAME= "Geben Sie den Namen des Trackers ein";
+SYMBOLS_LIMIT_38= "Maximal 38 Zeichen";
+SYMBOLS_LIMIT_18= "Maximal 18 Zeichen";
+COLOR= "Farbe";
+CREATE= "Erstellen";
+HABITS_AND_EVENTS_CAN_BE_COMBINED= "Gewohnheiten und Ereignisse können in ihrer Bedeutung kombiniert werden";
+ADD_CATEGORY= "Kategorie hinzufügen";
+CATEGORY_IS_REALLY_REQUIRED= "Ist diese Kategorie wirklich notwendig?";
+DELETE= "Löschen";
+EDIT= "Bearbeiten";
+NEW_CATEGORY= "Neue Kategorie";
+ENTER_CATEGORY_NAME= "Geben Sie den Kategorienamen ein";
+DONE= "Bereit";
+EDITING_CATEGORY= "Kategoriebearbeitung";
+TRACKERS= "Tracker";
+STATISTICS= "Statistiken";
+MONDAY= "Montag";
+TUESDAY= "Dienstag";
+WEDNESDAY= "Mittwoch";
+THURSDAY= "Donnerstag";
+FRIDAY= "Freitag";
+SATURDAY= "Samstag";
+SUNDAY= "Sonntag";
+MONDAY_SHORT= "Mon";
+TUESDAY_SHORT= "Die";
+WEDNESDAY_SHORT= "Mit";
+THURSDAY_SHORT= "Don";
+FRIDAY_SHORT= "Fre";
+SATURDAY_SHORT= "Sam";
+SUNDAY_SHORT= "Son";
+EVERYDAY= "Täglich";
+DAY= "Tag";
+DAYS= "Tage";
+DAYS_LANGUAGE_SENSITIVE= "Tage";
+PIN= "Stift";
+UNPIN= "Lösen";
+EDIT= "Bearbeiten";
+TRACKER_DELETION= "Möchten Sie den Tracker wirklich löschen?";
+PINNED= "Gepinnt";
+NOTHING_FOUND= "Nichts gefunden";
+NOTHING_TO_ANALYZE= "Nichts zu analysieren";
+BEST_PERIOD= "beste Zeit";
+IDEAL_DAYS= "Perfekte Tage";
+TRACKERS_COMPLETED= "Tracker abgeschlossen";
+AVERAGE_VALUE= "Mittlere Bedeutung";

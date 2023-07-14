@@ -20,7 +20,7 @@ final class NavigationController: UINavigationController {
     
     private func setupTrackersScreenController(viewController: UIViewController) {
         if viewController is TrackersScreenController {
-            navigationBar.topItem?.title = "Трекеры"
+            navigationBar.topItem?.title = "TRACKERS".localized
             navigationBar.topItem?.leftBarButtonItem =
                 UIBarButtonItem(
                     barButtonSystemItem: .add,

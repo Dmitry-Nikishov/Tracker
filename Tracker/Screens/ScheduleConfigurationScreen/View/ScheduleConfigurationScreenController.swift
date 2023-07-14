@@ -15,6 +15,7 @@ protocol ScheduleConfigurationDelegate: AnyObject {
 final class ScheduleConfigurationScreenController: StyledScreenController {
     private var viewModel: ScheduleConfigurationScreenViewModel?
     weak var delegate: ScheduleConfigurationDelegate?
+    private let analyticsService = AnalyticsService()
 
     private lazy var titleLabel: UILabel = {
         let view = UILabel()
@@ -25,7 +26,7 @@ final class ScheduleConfigurationScreenController: StyledScreenController {
         view.numberOfLines = 0
         view.adjustsFontSizeToFitWidth = true
         view.minimumScaleFactor = 0.7
-        view.text = "Расписание"
+        view.text = "SCHEDULE".localized
         return view
     }()
 
@@ -49,7 +50,7 @@ final class ScheduleConfigurationScreenController: StyledScreenController {
         view.backgroundColor = .appBlack
         view.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         view.setTitleColor(.appWhite, for: .normal)
-        view.setTitle("Готово", for: .normal)
+        view.setTitle("DONE".localized, for: .normal)
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
         view.addTarget(nil, action: #selector(finishedButtonTapped), for: .touchUpInside)
@@ -99,9 +100,34 @@ final class ScheduleConfigurationScreenController: StyledScreenController {
         
         setupSubViews()
         setupModel()
+        
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.open,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.scheduleConfiguration
+            ]
+        )
+    }
+    
+    override func viewDidDisappear(_ animated: Bool) {
+        super.viewDidDisappear(animated)
+        
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.close,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.scheduleConfiguration
+            ]
+        )
     }
     
     @objc private func finishedButtonTapped() {
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.click,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.scheduleConfiguration,
+                "item": AppConstants.YandexMobileMetrica.Items.confirmSchedule
+            ]
+        )
         delegate?.updateSchedule(withDays: viewModel?.getSelectedDays() ?? [])
         dismiss(animated: true)
     }

@@ -10,12 +10,12 @@ import UIKit
 final class OnboardingScreenViewModel {
     private let pages: [UIViewController] = [
         OnboardingPageController(
-            text: "Отслеживайте только то, что хотите",
+            text: "MONITOR_WHAT_YOU_NEED".localized,
             backgroundImage: UIImage(
                 named: "OnboardingFirstPage"
             ) ?? UIImage()),
         OnboardingPageController(
-            text: "Даже если это не литры воды и йога",
+            text: "EVEN_IF_IT_IS_NOT_LITERS_OF_WATER_OR_YOGA".localized,
             backgroundImage: UIImage(
                 named: "OnboardingSecondPage"
             ) ?? UIImage())

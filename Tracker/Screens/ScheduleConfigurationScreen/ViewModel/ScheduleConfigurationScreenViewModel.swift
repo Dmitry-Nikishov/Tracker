@@ -8,7 +8,7 @@
 import UIKit
 
 final class ScheduleConfigurationScreenViewModel {
-    private let days: [String] = WeekDay.allCases.map {$0.rawValue}
+    private let days: [String] = WeekDay.allCases.map {$0.rawValue.localized}
     private var selectedDays: [String] = []
     private var alreadySelectedDays: [String] = []
     private var currentSelectedStatuses: [Bool] {

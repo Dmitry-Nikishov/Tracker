@@ -14,6 +14,7 @@ final class TrackersScreenViewModel {
     @Observable
     private(set) var shouldCollectionBeReloaded: Bool = false
 
+    private let analyticsService = AnalyticsService()
     private let trackerCategoryStore = TrackerCategoryStore.shared
     private let trackerRecordStore = TrackerRecordStore()
     private var categories: [TrackerCategory] = []
@@ -21,10 +22,23 @@ final class TrackersScreenViewModel {
     private var completedTrackers: Set<TrackerRecord> = []
     private var currentDate: Date = Date()
     private var currentSearchText: String = ""
+    private var hasPinnedCategory: Bool {
+        categories.contains(where: { $0.title == "PINNED".localized })
+    }
+    private var currentlyEditingIndex: IndexPath?
 
     init() {
         completedTrackers = Set(trackerRecordStore.trackers)
         refreshData()
+    }
+    
+    deinit {
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.close,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.trackers
+            ]
+        )
     }
     
     func checkDataExistence() {
@@ -63,6 +77,9 @@ final class TrackersScreenViewModel {
 
     func refreshData() {
         allCategories = trackerCategoryStore.categories
+        if hasPinnedCategory, allCategories[0].trackers.isEmpty {
+            allCategories.remove(at: 0)
+        }
         searchTrackers(by: currentSearchText)
         shouldCollectionBeReloaded = true
     }
@@ -91,12 +108,23 @@ final class TrackersScreenViewModel {
         }
         cell.trackerId = item.id
         cell.taskArea.backgroundColor = item.color
-        let completionLabelSuffix = Converters.daysToStringSuffix(days: completions)
-        cell.counterLabel.text = "\(completions) \(completionLabelSuffix)"
+        cell.counterLabel.text = completions.localized
         cell.taskLabel.text = item.emoji
         cell.taskName.text = item.name
         cell.delegate = self
+        
+        cell.pinIcon.isHidden = !item.isPinned
+        cell.layer.masksToBounds = true
+        cell.layer.cornerRadius = 16
         return cell
+    }
+
+    func setupViewController(forSelectedItemAt indexPath: IndexPath) -> UIViewController {
+        currentlyEditingIndex = indexPath
+        let tracker = categories[indexPath.section].trackers[indexPath.row]
+        let count = completedTrackers.filter({ $0.id == tracker.id}).count
+        let viewController = HabitCreationScreenController(trackerToEdit: tracker, counter: count)
+        return viewController
     }
 
     func updateCurrentDate(to date: Date) {
@@ -141,6 +169,15 @@ final class TrackersScreenViewModel {
             }
         }
         
+        if let pinnedCategoryIndex = categories.firstIndex(
+            where: {
+                $0.title == "PINNED".localized
+            }
+        ) {
+            let pinnedCategory = categories.remove(at: pinnedCategoryIndex)
+            categories.insert(pinnedCategory, at: 0)
+        }
+        
         shouldCollectionBeHidden = categories.count == 0
         shouldCollectionBeReloaded = true
     }
@@ -181,10 +218,106 @@ final class TrackersScreenViewModel {
     func didEnter(_ text: String?) {
         currentSearchText = text ?? ""
     }
+    
+    func deleteTracker(with indexPath: IndexPath, withRecords: Bool = false) {
+        let category = categories[indexPath.section]
+        let tracker = category.trackers[indexPath.row]
+        var trackersList = category.trackers
+        trackersList.remove(at: indexPath.row)
+        if let existingCategory = trackerCategoryStore.doesCategoryExist(named: category.title) {
+            trackerCategoryStore.updateExistingCategory(
+                existingCategory,
+                with: TrackerCategory(
+                    title: category.title,
+                    trackers: trackersList
+                )
+            )
+        }
+        if withRecords {
+            let trackerRecordsToDelete = completedTrackers.filter { $0.id == tracker.id }
+            completedTrackers = completedTrackers.filter { $0.id != tracker.id }
+            trackerRecordsToDelete.forEach { trackerRecord in
+                trackerRecordStore.deleteTracker(trackerRecord)
+            }
+        }
+        refreshData()
+    }
+
+    func pinTracker(with indexPath: IndexPath) {
+        var tracker = categories[indexPath.section].trackers[indexPath.row]
+        tracker.isPinned = true
+        deleteTracker(with: indexPath)
+        addNewTracker(
+            TrackerCategory(
+                title: "PINNED".localized,
+                trackers: [tracker]
+            )
+        )
+    }
+
+    func unpinTracker(with indexPath: IndexPath) {
+        var tracker = categories[indexPath.section].trackers[indexPath.row]
+        tracker.isPinned = false
+        deleteTracker(with: indexPath)
+        addNewTracker(
+            TrackerCategory(
+                title: tracker.categoryName,
+                trackers: [tracker]
+            )
+        )
+    }
+
+    func updateTracker(_ trackerCategory: TrackerCategory, counter: Int) {
+        guard let tracker = trackerCategory.trackers.first,
+              let index = currentlyEditingIndex else { return }
+        if tracker.isPinned {
+            deleteTracker(with: index)
+            addNewTracker(
+                TrackerCategory(
+                    title: "PINNED".localized,
+                    trackers: [tracker]
+                )
+            )
+        } else {
+            deleteTracker(with: index)
+            addNewTracker(
+                TrackerCategory(
+                    title: tracker.categoryName,
+                    trackers: [tracker]
+                )
+            )
+        }
+        let oldCount = completedTrackers.filter({ $0.id == tracker.id}).count
+        if oldCount > counter {
+            for _ in 1...(oldCount - counter) {
+                if let element = completedTrackers.first(where: { $0.id == tracker.id }) {
+                    completedTrackers.remove(element)
+                    trackerRecordStore.deleteTracker(element)
+                }
+            }
+        } else if oldCount < counter {
+            for _ in 1...(counter - oldCount) {
+                let newRecord = TrackerRecord(id: tracker.id, date: Date.randomDate)
+                completedTrackers.insert(newRecord)
+                trackerRecordStore.addNewRecord(newRecord)
+            }
+        }
+    }
+
+    func hasPinned() -> Bool {
+        hasPinnedCategory
+    }
 }
 
 extension TrackersScreenViewModel: TrackerCollectionCellDelegate {
     func doTask(trackerId: UUID) {
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.click,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.trackers,
+                "item": AppConstants.YandexMobileMetrica.Items.completeTrack
+            ]
+        )
         let finishedTask = TrackerRecord(
             id: trackerId,
             date: currentDate.dateString

@@ -8,26 +8,40 @@
 import Foundation
 
 enum WeekDay: String, CaseIterable {
-    case monday = "Понедельник"
-    case tuesday = "Вторник"
-    case wednesday = "Среда"
-    case thursday = "Четверг"
-    case friday = "Пятница"
-    case saturday = "Суббота"
-    case sunday = "Воскресенье"
+    case monday = "MONDAY"
+    case tuesday = "TUESDAY"
+    case wednesday = "WEDNESDAY"
+    case thursday = "THURSDAY"
+    case friday = "FRIDAY"
+    case saturday = "SATURDAY"
+    case sunday = "SUNDAY"
     
     private static let daysMapping = [
-        "Понедельник": "Пн",
-        "Вторник": "Вт",
-        "Среда": "Ср",
-        "Четверг": "Чт",
-        "Пятница": "Пт",
-        "Суббота": "Сб",
-        "Воскресенье": "Вс"
+        "MONDAY".localized: "MONDAY_SHORT".localized,
+        "TUESDAY".localized: "TUESDAY_SHORT".localized,
+        "WEDNESDAY".localized: "WEDNESDAY_SHORT".localized,
+        "THURSDAY".localized: "THURSDAY_SHORT".localized,
+        "FRIDAY".localized: "FRIDAY_SHORT".localized,
+        "SATURDAY".localized: "SATURDAY_SHORT".localized,
+        "SUNDAY".localized: "SUNDAY_SHORT".localized
+    ]
+    
+    private static let scheduleKeys: [String: WeekDay] = [
+        "MONDAY".localized: .monday,
+        "TUESDAY".localized: .tuesday,
+        "WEDNESDAY".localized: .wednesday,
+        "THURSDAY".localized: .thursday,
+        "FRIDAY".localized: .friday,
+        "SATURDAY".localized: .saturday,
+        "SUNDAY".localized: .sunday
     ]
 
+    static func getWeekDayKey(for weekDay: String) -> WeekDay? {
+        return scheduleKeys[weekDay]
+    }
+
     static func getShortWeekDay(for day: String) -> String? {        
-        return daysMapping[day]
+        return daysMapping[day.localized]
     }
 
     static func getWeekDay(for date: Date) -> WeekDay {

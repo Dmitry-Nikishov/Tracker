@@ -10,16 +10,16 @@ import Foundation
 final class Converters {
     static func daysToStringSuffix(days: Int) -> String {
         if days % 100 / 10 == 1 {
-            return "дней"
+            return "DAYS".localized
         }
     
         switch days % 10 {
         case 1:
-            return "день"
+            return "DAY".localized
         case 2...4:
-            return "дня"
+            return "DAYS_LANGUAGE_SENSITIVE".localized
         default:
-            return "дней"
+            return "DAYS".localized
         }
     }
     

@@ -1,0 +1,66 @@
+/* 
+  Localizable.strings
+  Tracker
+
+  Created by Дмитрий Никишов on 05.07.2023.
+  
+*/
+MONITOR_WHAT_YOU_NEED = "Track everything you want";
+EVEN_IF_IT_IS_NOT_LITERS_OF_WATER_OR_YOGA = "Even if this is not a water balance or yoga";
+WHAT_TECHNOLOGIES = "What a technology!";
+WHAT_TO_TRACK = "What we're gonna track?";
+SEARCH = "Search";
+CANCEL = "Canel";
+FILTERS = "Filters";
+TRACKER_CREATION = "Tracker creation";
+HABIT = "Habit";
+NONREGULAR_EVENT = "Non-regular event";
+CATEGORY = "Category";
+SCHEDULE = "Schedule";
+NEW_HABIT = "New habit";
+NEW_NON_REGULAR_EVENT = "New non-regular event";
+ENTER_TRACKER_NAME = "Enter a tracker name";
+SYMBOLS_LIMIT_38 = "38 symbols limit";
+SYMBOLS_LIMIT_18 = "18 symbols limit";
+COLOR = "Color";
+CREATE = "Create";
+HABITS_AND_EVENTS_CAN_BE_COMBINED = "You can unite habits and events by meaning";
+ADD_CATEGORY = "Add category";
+CATEGORY_IS_REALLY_REQUIRED = "This category isn't needed anymore?";
+DELETE = "Delete";
+EDIT = "Edit";
+NEW_CATEGORY = "New category";
+ENTER_CATEGORY_NAME = "Enter a category name";
+DONE = "Done";
+EDITING_CATEGORY = "Category editing";
+TRACKERS = "Trackers";
+STATISTICS = "Statistics";
+MONDAY = "Monday";
+TUESDAY = "Tuesday";
+WEDNESDAY = "Wednesday";
+THURSDAY = "Thursday";
+FRIDAY = "Friday";
+SATURDAY = "Saturday";
+SUNDAY = "Sunday";
+MONDAY_SHORT = "Mon";
+TUESDAY_SHORT = "Tue";
+WEDNESDAY_SHORT = "Wed";
+THURSDAY_SHORT = "Thu";
+FRIDAY_SHORT = "Fri";
+SATURDAY_SHORT = "Sat";
+SUNDAY_SHORT = "Sun";
+EVERYDAY = "Every day";
+DAY = "d";
+DAYS = "d";
+DAYS_LANGUAGE_SENSITIVE = "d";
+PIN = "Pin";
+UNPIN = "Unpin";
+EDIT = "Edit";
+TRACKER_DELETION = "Are you sure you want to delete the tracker?";
+PINNED = "Pinned";
+NOTHING_FOUND = "Nothing found";
+NOTHING_TO_ANALYZE = "Nothing to analyze";
+BEST_PERIOD = "Best period";
+IDEAL_DAYS = "Ideal days";
+TRACKERS_COMPLETED = "Trackers completed";
+AVERAGE_VALUE = "Average value";
