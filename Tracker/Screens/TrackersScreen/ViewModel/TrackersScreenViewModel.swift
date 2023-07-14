@@ -116,6 +116,8 @@ final class TrackersScreenViewModel {
         cell.pinIcon.isHidden = !item.isPinned
         cell.layer.masksToBounds = true
         cell.layer.cornerRadius = 16
+        
+        cell.counterButton.isEnabled = currentDate <= Date()
         return cell
     }
 
