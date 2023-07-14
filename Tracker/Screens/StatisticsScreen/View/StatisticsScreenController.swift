@@ -315,6 +315,7 @@ final class StatisticsScreenController: UIViewController {
     }
     
     override func viewDidLoad() {
+        super.viewDidLoad()
         setupSubViews()
     }
 
