@@ -30,7 +30,7 @@ final class AppTabBarController: UITabBarController {
             rootViewController: TrackersScreenController()
         )
         let statisticsController = NavigationController(
-            rootViewController: TrackersScreenController()
+            rootViewController: StatisticsScreenController()
         )
         self.viewControllers = [
             configureTabItem(
