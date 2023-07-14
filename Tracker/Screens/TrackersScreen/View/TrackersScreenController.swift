@@ -53,6 +53,11 @@ final class TrackersScreenController: UIViewController {
             ]
         )
         view.clearButtonMode = .never
+        view.addTarget(
+            nil,
+            action: #selector(textFieldDidChange),
+            for: .editingChanged
+        )
         return view
     }()
     
