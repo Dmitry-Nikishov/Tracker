@@ -28,12 +28,16 @@ final class TrackerCategoryScreenViewModel {
 
     init() {
         store.delegate = self
-        categories = store.categories.map { $0.title }
+        categories = store.categories
+            .map { $0.title }
+            .filter { $0 != "PINNED".localized }
         checkDataPresence()
     }
     
     func getNumberOfCategories() -> Int {
-        categories = store.categories.map { $0.title }
+        categories = store.categories
+            .map { $0.title }
+            .filter { $0 != "PINNED".localized }
         return categories.count
     }
 
