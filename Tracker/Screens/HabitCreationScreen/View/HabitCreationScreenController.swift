@@ -282,16 +282,26 @@ final class HabitCreationScreenController: StyledScreenController {
                 "item": AppConstants.YandexMobileMetrica.Items.confirmTrackerCreation
             ]
         )
-
-        if let top = UIApplication.shared.windows.filter({
-            $0.isKeyWindow
-        }).first?.rootViewController {
+        
+        if let top = UIApplication.shared.windows.filter({ $0.isKeyWindow }).first?.rootViewController {
             let destination = top.children.first?.children.first as? TrackersScreenController
             if let viewModel = viewModel {
-                destination?.addData(viewModel.createNewTracker())
+                if trackerToEdit == nil {
+                    destination?.addData(
+                        viewModel.createNewTracker()
+                    )
+                } else {
+                    destination?.updateData(
+                        viewModel.createNewTracker(),
+                        counter: Int(counterLabel.text ?? "") ?? 0
+                    )
+                }
             }
         }
-        self.view.window!.rootViewController?.dismiss(animated: false, completion: nil)
+        self.view.window!.rootViewController?.dismiss(
+            animated: false,
+            completion: nil
+        )
     }
     
     @objc

@@ -246,6 +246,10 @@ final class TrackersScreenController: UIViewController {
     func updateCollectionView() {
         viewModel?.refreshData()
     }
+    
+    func updateData(_ trackerCategory: TrackerCategory, counter: Int) {
+        viewModel?.updateTracker(trackerCategory, counter: counter)
+    }
 }
 
 extension TrackersScreenController: UISearchTextFieldDelegate {
