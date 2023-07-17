@@ -30,17 +30,17 @@ final class AppTabBarController: UITabBarController {
             rootViewController: TrackersScreenController()
         )
         let statisticsController = NavigationController(
-            rootViewController: TrackersScreenController()
+            rootViewController: StatisticsScreenController()
         )
         self.viewControllers = [
             configureTabItem(
                 controller: trackersController,
-                title: "Трекеры",
+                title: "TRACKERS".localized,
                 andImage: UIImage(named: "TrackerTabBarIcon") ?? UIImage()
             ),
             configureTabItem(
                 controller: statisticsController,
-                title: "Статистика",
+                title: "STATISTICS".localized,
                 andImage: UIImage(named: "StatisticsTabBarIcon") ?? UIImage()
             )
         ]

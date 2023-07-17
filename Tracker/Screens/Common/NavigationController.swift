@@ -18,9 +18,9 @@ final class NavigationController: UINavigationController {
     
     weak var dateUpdateDelegate: DateUpdateDelegate?
     
-    private func setupTrackersScreenController(viewController: UIViewController) {
+    private func setupNavigationController(viewController: UIViewController) {
         if viewController is TrackersScreenController {
-            navigationBar.topItem?.title = "Трекеры"
+            navigationBar.topItem?.title = "TRACKERS".localized
             navigationBar.topItem?.leftBarButtonItem =
                 UIBarButtonItem(
                     barButtonSystemItem: .add,
@@ -59,6 +59,8 @@ final class NavigationController: UINavigationController {
             ]
             
             NSLayoutConstraint.activate(constraints)
+        } else {
+            navigationBar.topItem?.title = "STATISTICS".localized
         }
     }
     
@@ -69,7 +71,7 @@ final class NavigationController: UINavigationController {
         navigationBar.tintColor = .appBlack
         navigationBar.prefersLargeTitles = true
         
-        setupTrackersScreenController(viewController: viewController)
+        setupNavigationController(viewController: viewController)
     }
     
     override init(rootViewController: UIViewController) {

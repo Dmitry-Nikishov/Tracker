@@ -31,7 +31,7 @@ final class OnboardingScreenController: UIPageViewController {
         view.backgroundColor = .appBlack
         view.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         view.setTitleColor(.appWhite, for: .normal)
-        view.setTitle("Вот это технологии!", for: .normal)
+        view.setTitle("WHAT_TECHNOLOGIES".localized, for: .normal)
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
         view.addTarget(

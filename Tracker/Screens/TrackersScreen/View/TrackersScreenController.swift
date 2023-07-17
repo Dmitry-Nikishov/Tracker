@@ -7,8 +7,9 @@
 
 import UIKit
 
-final class TrackersScreenController: StyledScreenController {
+final class TrackersScreenController: UIViewController {
     private var viewModel: TrackersScreenViewModel?
+    private let analyticsService = AnalyticsService()
 
     private lazy var dummyImage = {
         let view = UIImageView()
@@ -26,7 +27,7 @@ final class TrackersScreenController: StyledScreenController {
         view.numberOfLines = 0
         view.adjustsFontSizeToFitWidth = true
         view.minimumScaleFactor = 0.7
-        view.text = "Что будем отслеживать?"
+        view.text = "WHAT_TO_TRACK".localized
         return view
     }()
     
@@ -42,7 +43,7 @@ final class TrackersScreenController: StyledScreenController {
     private lazy var searchTextField = {
         let view = UISearchTextField()
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.placeholder = "Поиск"
+        view.placeholder = "SEARCH".localized
         view.backgroundColor = .appLightGray.withAlphaComponent(0.12)
         view.textColor = .appBlack
         view.attributedPlaceholder = NSAttributedString(
@@ -52,6 +53,11 @@ final class TrackersScreenController: StyledScreenController {
             ]
         )
         view.clearButtonMode = .never
+        view.addTarget(
+            nil,
+            action: #selector(textFieldDidChange),
+            for: .editingChanged
+        )
         return view
     }()
     
@@ -61,7 +67,7 @@ final class TrackersScreenController: StyledScreenController {
         view.backgroundColor = .clear
         view.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
         view.setTitleColor(.appWhite, for: .normal)
-        view.setTitle("Отменить", for: .normal)
+        view.setTitle("CANCEL".localized, for: .normal)
         view.layer.cornerRadius = 16
         view.layer.masksToBounds = true
         view.addTarget(
@@ -109,10 +115,11 @@ final class TrackersScreenController: StyledScreenController {
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .appBlue
         button.titleLabel?.font = UIFont.systemFont(ofSize: 17, weight: .regular)
-        button.setTitleColor(.appWhite, for: .normal)
-        button.setTitle("Фильтры", for: .normal)
+        button.setTitleColor(.appWhiteForever, for: .normal)
+        button.setTitle("FILTERS".localized, for: .normal)
         button.layer.cornerRadius = 16
         button.layer.masksToBounds = true
+        button.addTarget(nil, action: #selector(filterButtonClicked), for: .touchUpInside)
         return button
     }()
 
@@ -130,6 +137,16 @@ final class TrackersScreenController: StyledScreenController {
         dummyLabel.isHidden = toBeHidden ? false : true
         collectionView.isHidden = toBeHidden ? true : false
         filterButton.isHidden = toBeHidden ? true : false
+        
+        if toBeHidden {
+            if searchTextField.text != "" {
+                dummyImage.image = UIImage(named: "noDataFound")
+                dummyLabel.text = "NOTHING_FOUND".localized
+            } else {
+                dummyImage.image = UIImage(named: "dizzy")
+                dummyLabel.text = "WHAT_TO_TRACK".localized
+            }
+        }
     }
 
     private func setupBindings() {
@@ -193,12 +210,34 @@ final class TrackersScreenController: StyledScreenController {
         setupSubViews()
     }
     
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.open,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.trackers
+            ]
+        )
+    }
+    
     @objc private func discardButtonTapped() {
         searchTextField.text = ""
         textFieldDidChange()
         discardButton.isHidden = true
         becomeFirstResponder()
     }
+    
+    @objc private func filterButtonClicked() {
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.click,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.trackers,
+                "item": AppConstants.YandexMobileMetrica.Items.filter
+            ]
+        )
+    }
+
     
     @objc private func textFieldDidChange() {
         viewModel?.didEnter(searchTextField.text)
@@ -211,6 +250,10 @@ final class TrackersScreenController: StyledScreenController {
 
     func updateCollectionView() {
         viewModel?.refreshData()
+    }
+    
+    func updateData(_ trackerCategory: TrackerCategory, counter: Int) {
+        viewModel?.updateTracker(trackerCategory, counter: counter)
     }
 }
 
@@ -311,7 +354,6 @@ extension TrackersScreenController: UICollectionViewDelegateFlowLayout {
 }
 
 extension TrackersScreenController: UICollectionViewDelegate {
-
     func collectionView(_ collectionView: UICollectionView,
                         viewForSupplementaryElementOfKind kind: String,
                         at indexPath: IndexPath
@@ -322,6 +364,94 @@ extension TrackersScreenController: UICollectionViewDelegate {
             indexPath: indexPath
         ) ?? UICollectionReusableView()
     }
+
+    func collectionView(_ collectionView: UICollectionView,
+                        contextMenuConfigurationForItemAt indexPath: IndexPath,
+                        point: CGPoint
+    ) -> UIContextMenuConfiguration? {
+        let havePinned = viewModel?.hasPinned() ?? false
+        let configuration = UIContextMenuConfiguration(identifier: nil, previewProvider: nil) { _ in
+            var pinAction = UIAction(title: "PIN".localized) { [weak self] _ in
+                self?.proceedPinning(atIndexPath: indexPath, isPinned: false)
+            }
+            if havePinned,
+               indexPath.section == 0 {
+                pinAction = UIAction(title: "UNPIN".localized) { [weak self] _ in
+                    self?.proceedPinning(atIndexPath: indexPath, isPinned: true)
+                }
+            }
+
+            let editAction = UIAction(title: "EDIT".localized) { [weak self] _ in
+                self?.proceedEditingActions(delete: false, atIndexPath: indexPath)
+            }
+
+            let deleteAction = UIAction(title: "DELETE".localized, attributes: .destructive) { [weak self] _ in
+                self?.proceedEditingActions(delete: true, atIndexPath: indexPath)
+            }
+            return UIMenu(children: [pinAction, editAction, deleteAction])
+        }
+        return configuration
+    }
+
+    private func proceedPinning(atIndexPath indexPath: IndexPath, isPinned: Bool) {
+        if isPinned {
+            viewModel?.unpinTracker(with: indexPath)
+        } else {
+            viewModel?.pinTracker(with: indexPath)
+        }
+        
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.click,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.trackers,
+                "item": isPinned ?
+                AppConstants.YandexMobileMetrica.Items.unpin :
+                AppConstants.YandexMobileMetrica.Items.pin
+            ]
+        )
+    }
+
+    private func proceedEditingActions(delete isDeletion: Bool, atIndexPath indexPath: IndexPath) {
+        if isDeletion {
+            showDeletionAlert(for: indexPath)
+        } else {
+            guard let viewController = viewModel?.setupViewController(forSelectedItemAt: indexPath) else { return }
+            self.present(viewController, animated: true)
+        }
+        
+        analyticsService.sendReport(
+            event: AppConstants.YandexMobileMetrica.Events.click,
+            params: [
+                "screen": AppConstants.YandexMobileMetrica.Screens.trackers,
+                "item": isDeletion ?
+                AppConstants.YandexMobileMetrica.Items.delete :
+                AppConstants.YandexMobileMetrica.Items.edit
+            ]
+        )
+    }
+
+    func showDeletionAlert(for indexPath: IndexPath) {
+        let alertController = UIAlertController(
+            title: "TRACKER_DELETION".localized,
+            message: nil,
+            preferredStyle: .actionSheet
+        )
+        let deleteAction = UIAlertAction(
+            title: "DELETE".localized,
+            style: .destructive
+        ) { [weak self] _ in
+            guard let self = self else { return }
+            self.viewModel?.deleteTracker(with: indexPath, withRecords: true)
+        }
+        
+        let cancelAction = UIAlertAction(
+            title: "CANCEL".localized,
+            style: .cancel
+        )
+        alertController.addAction(deleteAction)
+        alertController.addAction(cancelAction)
+        present(alertController, animated: true)
+     }
 }
 
 extension TrackersScreenController: DateUpdateDelegate {
